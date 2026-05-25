@@ -45,7 +45,7 @@ const Navbar = () => {
     <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-brand-paper/80 backdrop-blur-md border-b border-brand-ink/5 py-4' : 'bg-transparent py-8'}`}>
       <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
         <a href="#" className="font-serif text-2xl font-bold tracking-tighter hover:opacity-70 transition-opacity">
-          VELOURA<span className="text-brand-accent">.</span>
+          AAKAR<span className="text-brand-accent">.</span>
         </a>
 
         {/* Desktop Links */}
@@ -151,8 +151,8 @@ const Hero = () => {
         >
           <div className="aspect-[3/4] relative rounded-t-[200px] overflow-hidden border border-brand-ink/5">
             <img 
-              src="https://picsum.photos/seed/veloura-hero/800/1100" 
-              alt="Veloura Studio Design"
+              src="https://picsum.photos/seed/aakar-hero/800/1100" 
+              alt="Aakar Studio Design"
               className="w-full h-full object-cover grayscale brightness-90 contrast-110"
               referrerPolicy="no-referrer"
             />
@@ -169,7 +169,7 @@ const Hero = () => {
 
       {/* Floating Background Text */}
       <div className="absolute bottom-0 right-0 opacity-[0.03] select-none pointer-events-none translate-y-1/4">
-        <span className="text-[30rem] font-serif leading-none italic font-bold">Veloura</span>
+        <span className="text-[30rem] font-serif leading-none italic font-bold">Aakar</span>
       </div>
     </section>
   );
@@ -186,7 +186,7 @@ const About = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm uppercase tracking-[0.5em] text-brand-accent/60 mb-6 font-medium">About Veloura</h2>
+            <h2 className="text-sm uppercase tracking-[0.5em] text-brand-accent/60 mb-6 font-medium">About Aakar</h2>
             <p className="text-3xl md:text-4xl lg:text-5xl font-light leading-snug">
               With 25+ years of design experience, we blend <span className="italic">branding</span>, UI/UX, and <span className="italic">visual storytelling</span> to create premium digital experiences.
             </p>
@@ -477,7 +477,7 @@ const Contact = () => {
                 <div className="p-3 border border-brand-ink/10 rounded-full group-hover:bg-brand-ink group-hover:text-brand-paper transition-all">
                   <Mail size={18} />
                 </div>
-                <span className="text-xs uppercase tracking-widest font-medium">hello@veloura.studio</span>
+                <span className="text-xs uppercase tracking-widest font-medium">hello@aakar.studio</span>
               </div>
               <div className="h-[1px] flex-1 bg-brand-ink/10"></div>
               <span className="text-[10px] uppercase tracking-widest text-brand-muted italic">Limited Clients per Month</span>
@@ -495,7 +495,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
         <div>
           <a href="#" className="font-serif text-2xl font-bold tracking-tighter">
-            VELOURA<span className="text-brand-accent">.</span>
+            AAKAR<span className="text-brand-accent">.</span>
           </a>
         </div>
         
@@ -506,7 +506,7 @@ const Footer = () => {
         </div>
 
         <div className="text-[10px] uppercase tracking-widest text-brand-muted">
-          &copy; {new Date().getFullYear()} Veloura Studio. All Rights Reserved.
+          &copy; {new Date().getFullYear()} Aakar Studio. All Rights Reserved.
         </div>
       </div>
     </footer>
