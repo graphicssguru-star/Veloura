@@ -19,7 +19,27 @@ import {
   Compass,
   Layers,
   Sparkles,
-  Award
+  Award,
+  Palette,
+  Smartphone,
+  Laptop,
+  Package,
+  Utensils,
+  Megaphone,
+  Briefcase,
+  Printer,
+  Presentation,
+  Target,
+  BookOpen,
+  Heart,
+  ShoppingBag,
+  Home,
+  GraduationCap,
+  Building2,
+  Rocket,
+  Cpu,
+  Factory,
+  Box
 } from 'lucide-react';
 
 // --- Components ---
@@ -37,6 +57,9 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Work', href: '#work' },
     { name: 'Services', href: '#services' },
+    { name: 'Capabilities', href: '#capabilities' },
+    { name: 'Experience', href: '#experience' },
+    { name: 'Why Us', href: '#why-us' },
     { name: 'About', href: '#about' },
     { name: 'Process', href: '#process' },
   ];
@@ -186,8 +209,11 @@ const About = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <h2 className="text-sm uppercase tracking-[0.5em] text-brand-accent/60 mb-6 font-medium">About Aakar</h2>
-            <p className="text-3xl md:text-4xl lg:text-5xl font-light leading-snug">
+            <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Who We Are</span>
+            <h2 className="text-5xl md:text-7xl font-light text-brand-paper mb-8 leading-tight">
+              About <span className="italic text-brand-accent">Aakar</span>
+            </h2>
+            <p className="text-2xl md:text-3xl font-light leading-relaxed text-brand-paper/85 max-w-xl font-serif italic mb-8">
               With 25+ years of design experience, we blend <span className="italic">branding</span>, UI/UX, and <span className="italic">visual storytelling</span> to create premium digital experiences.
             </p>
           </motion.div>
@@ -241,6 +267,359 @@ const About = () => {
   );
 };
 
+const Experience = () => {
+  const coreExpertise = [
+    { name: "Brand Identity Design", icon: <Palette size={16} /> },
+    { name: "Creative Direction", icon: <Compass size={16} /> },
+    { name: "UI/UX Design", icon: <Layers size={16} /> },
+    { name: "Mobile App Design", icon: <Smartphone size={16} /> },
+    { name: "Website Design", icon: <Laptop size={16} /> },
+    { name: "Packaging Design", icon: <Package size={16} /> },
+    { name: "Restaurant Branding", icon: <Utensils size={16} /> },
+    { name: "Social Media Design", icon: <Instagram size={16} /> },
+    { name: "Marketing Campaigns", icon: <Megaphone size={16} /> },
+    { name: "Corporate Communication", icon: <Briefcase size={16} /> },
+    { name: "Print & Production Design", icon: <Printer size={16} /> },
+    { name: "Presentation Design", icon: <Presentation size={16} /> },
+    { name: "Digital Strategy", icon: <Target size={16} /> },
+    { name: "Visual Storytelling", icon: <BookOpen size={16} /> }
+  ];
+
+  return (
+    <section id="experience" className="py-24 bg-brand-paper overflow-hidden border-b border-brand-ink/5">
+      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 items-start">
+        <div className="lg:col-span-5 relative">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >
+            <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Our Journey</span>
+            <h2 className="text-5xl md:text-7xl font-light mb-8 leading-tight">
+              More Than Design.<br />
+              <span className="italic text-brand-accent">Building Brands</span> & Experiences Since 1999.
+            </h2>
+            <div className="relative pl-8 border-l border-brand-accent/30 space-y-6">
+              <div className="text-brand-muted text-sm font-light leading-relaxed">
+                Starting at the turn of the millennium, our experience covers over 25 years of professional design across multiple communication channels.
+              </div>
+              <div className="flex gap-4 items-center">
+                <span className="text-5xl font-serif font-semibold text-brand-ink">25+</span>
+                <span className="text-xs uppercase tracking-wider text-brand-muted leading-tight">Years of<br />Craftsmanship</span>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
+        <div className="lg:col-span-7 space-y-12">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-6 text-base text-brand-muted/90 font-light leading-relaxed"
+          >
+            <p>
+              With over 25 years of professional experience, I have worked across branding, packaging, graphic design, UI/UX, digital marketing, and creative strategy.
+            </p>
+            <p>
+              My journey spans traditional print media, corporate branding, retail communication, packaging design, social media marketing, websites, and digital product experiences.
+            </p>
+            <p>
+              This multidisciplinary background allows me to understand both business goals and user needs, creating solutions that are visually compelling and commercially effective.
+            </p>
+          </motion.div>
+
+          <div className="border-t border-brand-ink/10 pt-12">
+            <h3 className="text-xs uppercase tracking-[0.3em] font-medium text-brand-accent mb-8">Core Expertise</h3>
+            <div className="grid sm:grid-cols-2 gap-y-4 gap-x-8">
+              {coreExpertise.map((item, idx) => (
+                <motion.div
+                  key={item.name}
+                  initial={{ opacity: 0, y: 15 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: idx * 0.05 }}
+                  className="flex items-center gap-3 py-1 group cursor-default"
+                >
+                  <span className="text-brand-accent bg-brand-accent/5 p-1.5 rounded-md transform group-hover:scale-110 group-hover:bg-brand-accent group-hover:text-white transition-all duration-300">
+                    {item.icon}
+                  </span>
+                  <span className="text-sm font-light text-brand-ink group-hover:text-brand-accent transition-colors duration-300">{item.name}</span>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Capabilities = () => {
+  const categories = [
+    {
+      title: "Brand & Identity",
+      icon: <Palette className="text-brand-accent animate-pulse" size={24} />,
+      items: ["Logo Systems", "Brand Guidelines", "Visual Identity", "Brand Refresh"]
+    },
+    {
+      title: "User Experience",
+      icon: <Layers className="text-brand-accent" size={24} />,
+      items: ["Website UI/UX", "Mobile Applications", "Dashboards", "Wireframes", "Design Systems"]
+    },
+    {
+      title: "Marketing & Growth",
+      icon: <Megaphone className="text-brand-accent" size={24} />,
+      items: ["Social Media Campaigns", "Instagram Reels", "WhatsApp Marketing", "Promotional Campaigns"]
+    },
+    {
+      title: "Print & Packaging",
+      icon: <Package className="text-brand-accent" size={24} />,
+      items: ["Product Packaging", "Restaurant Menus", "Brochures", "Catalogues", "Point of Sale Materials", "Outdoor Branding"]
+    },
+    {
+      title: "Creative Consulting",
+      icon: <Briefcase className="text-brand-accent" size={24} />,
+      items: ["Brand Audits", "Digital Strategy", "Design Reviews", "Creative Direction"]
+    }
+  ];
+
+  return (
+    <section id="capabilities" className="py-24 bg-brand-ink text-brand-paper relative overflow-hidden border-b border-brand-paper/5">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid lg:grid-cols-12 gap-12 items-start mb-20">
+          <div className="lg:col-span-5 relative">
+            <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Our Scope</span>
+            <h2 className="text-5xl md:text-7xl font-light text-brand-paper mb-8 leading-tight">
+              End-to-End <br />
+              <span className="italic text-brand-accent">Creative Solutions</span>
+            </h2>
+          </div>
+          <div className="lg:col-span-7 pt-4">
+            <p className="text-base text-brand-paper/60 font-light leading-relaxed max-w-xl">
+              We provide comprehensive creative capabilities designed to elevate every face of your brand, establishing strong visual consistency across digital interfaces, physical items, and marketing touchpoints.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
+          {categories.map((category, idx) => (
+            <motion.div
+              key={category.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="p-8 border border-brand-paper/5 bg-brand-paper/[0.02] hover:bg-brand-paper/[0.05] hover:border-brand-accent/40 transition-all duration-500 flex flex-col h-full group"
+            >
+              <div className="mb-6 p-3 bg-brand-paper/[0.03] w-fit rounded-lg group-hover:bg-brand-accent/10 transition-colors duration-500">
+                {category.icon}
+              </div>
+              <h3 className="text-lg font-serif text-brand-paper mb-6 group-hover:text-brand-accent transition-colors duration-300">
+                {category.title}
+              </h3>
+              <ul className="space-y-3.5 mt-auto border-t border-brand-paper/10 pt-6">
+                {category.items.map((item) => (
+                  <li key={item} className="text-xs text-brand-paper/50 flex items-center gap-2 font-light hover:text-brand-paper/85 transition-colors duration-300">
+                    <span className="w-1 h-1 rounded-full bg-brand-accent/60 group-hover:bg-brand-accent transition-colors"></span>
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+
+      {/* Decorative details */}
+      <div className="absolute right-0 top-1/4 w-96 h-96 bg-brand-accent/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+    </section>
+  );
+};
+
+const WhyChooseMe = () => {
+  const points = [
+    { title: "25+ Years Creative Experience", desc: "A quarter-century of designing for luxury and leading brands globally." },
+    { title: "Print + Digital Expertise", desc: "Seamless synergy across tangible offline assets and digital ecosystems." },
+    { title: "UI/UX + Branding Knowledge", desc: "Combining customer psychology, sleek interface design, and deep brand history." },
+    { title: "Strategic Business Thinking", desc: "We don't just build designs. We design to drive real commercial results and outcomes." },
+    { title: "Production & Execution Experience", desc: "Heavy expertise in final delivery, modern layouts, and premium production values." },
+    { title: "Agency & Client-Side Understanding", desc: "Understanding corporate needs, dynamic challenges, and customer aspirations." }
+  ];
+
+  return (
+    <section id="why-us" className="py-24 bg-brand-paper relative overflow-hidden border-b border-brand-ink/5">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid lg:grid-cols-12 gap-16 items-start mb-12">
+          <div className="lg:col-span-5">
+            <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Distinction</span>
+            <span className="text-xs uppercase tracking-[0.5em] text-brand-muted mb-6 font-medium block">WHY CLIENTS WORK WITH ME</span>
+            <h2 className="text-5xl md:text-7xl font-light mb-8 leading-tight">
+              A Rare <span className="italic text-brand-accent">Combination</span>
+            </h2>
+            
+            <div className="bg-brand-ink text-brand-paper p-8 rounded-2xl border border-brand-paper/5 shadow-xl space-y-6 mt-12 relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-brand-accent/5 rounded-full blur-2xl"></div>
+              <h3 className="text-xs uppercase tracking-[0.3em] font-medium text-brand-accent">WHAT MAKES AAKAR DIFFERENT</h3>
+              <p className="text-xl font-serif italic text-brand-paper/90 leading-relaxed">
+                "Most designers focus on visuals. I focus on the complete experience."
+              </p>
+              <p className="text-sm font-light text-brand-paper/60 leading-relaxed">
+                From brand identity and packaging to websites, mobile apps, social media, and marketing communication, every solution is designed to create meaningful connections between brands and people.
+              </p>
+              <div className="text-xs uppercase tracking-widest text-brand-accent font-medium pt-4 border-t border-brand-paper/15">
+                "Because great design is not just seen. It is experienced."
+              </div>
+            </div>
+          </div>
+
+          <div className="lg:col-span-7 space-y-8">
+            <div className="grid sm:grid-cols-2 gap-6">
+              {points.map((point, idx) => (
+                <motion.div
+                  key={point.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.5, delay: idx * 0.1 }}
+                  className="p-8 border border-brand-ink/5 bg-white hover:border-brand-accent/30 transition-all duration-300 relative group"
+                >
+                  <div className="absolute top-0 left-0 w-[2px] h-0 bg-brand-accent group-hover:h-full transition-all duration-300"></div>
+                  <span className="text-xs font-serif text-brand-accent/50 block mb-3 font-semibold">0{idx + 1}</span>
+                  <h3 className="text-md font-sans font-medium mb-2 group-hover:text-brand-accent transition-colors">
+                    {point.title}
+                  </h3>
+                  <p className="text-xs font-light text-brand-muted leading-relaxed">
+                    {point.desc}
+                  </p>
+                </motion.div>
+              ))}
+            </div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+              className="p-8 md:p-12 border border-brand-accent/15 bg-brand-accent/[0.03] space-y-4 rounded-xl mt-12"
+            >
+              <p className="text-lg md:text-xl font-light text-brand-ink leading-relaxed font-serif italic">
+                "I don't just create designs. I help businesses communicate better, look better, and grow through thoughtful design and digital experiences."
+              </p>
+            </motion.div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Stats = () => {
+  const stats = [
+    { value: "25+", label: "Years Experience" },
+    { value: "200+", label: "Projects Delivered" },
+    { value: "50+", label: "Brands Supported" },
+    { value: "10+", label: "Industries Served" },
+    { value: "1000+", label: "Creative Assets Designed" }
+  ];
+
+  return (
+    <section className="py-20 bg-brand-ink text-brand-paper relative overflow-hidden">
+      <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#C5A059_1px,transparent_1px)] [background-size:16px_16px]"></div>
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="mb-12">
+          <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-accent mb-2 block">Track Record</span>
+          <h2 className="text-sm uppercase tracking-[0.5em] text-brand-paper/40 font-medium">BY THE NUMBERS</h2>
+        </div>
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 items-baseline">
+          {stats.map((stat, idx) => (
+            <motion.div
+              key={stat.label}
+              initial={{ opacity: 0, scale: 0.95 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              className="space-y-2 border-l border-brand-paper/5 pl-6 relative group"
+            >
+              <div className="absolute top-0 left-0 w-[1px] h-0 bg-brand-accent group-hover:h-full transition-all duration-300"></div>
+              <div className="text-5xl md:text-6xl font-serif font-light text-brand-accent">
+                {stat.value}
+              </div>
+              <div className="text-[10px] uppercase tracking-widest text-[#B5B5B5] leading-relaxed font-medium">
+                {stat.label}
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
+const Industries = () => {
+  const industries = [
+    { name: "Hospitality & Restaurants", icon: <Utensils size={20} /> },
+    { name: "Healthcare & Wellness", icon: <Heart size={20} /> },
+    { name: "Retail & FMCG", icon: <ShoppingBag size={20} /> },
+    { name: "Real Estate", icon: <Home size={20} /> },
+    { name: "Education", icon: <GraduationCap size={20} /> },
+    { name: "Corporate & Enterprise", icon: <Building2 size={20} /> },
+    { name: "Startups", icon: <Rocket size={20} /> },
+    { name: "Technology & SaaS", icon: <Cpu size={20} /> },
+    { name: "Manufacturing", icon: <Factory size={20} /> },
+    { name: "Consumer Products", icon: <Box size={20} /> }
+  ];
+
+  return (
+    <section className="py-24 bg-brand-paper overflow-hidden border-b border-brand-ink/5">
+      <div className="max-w-7xl mx-auto px-6">
+        <div className="grid lg:grid-cols-12 gap-12 items-center mb-16">
+          <div className="lg:col-span-5">
+            <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Specialization</span>
+            <span className="text-xs uppercase tracking-[0.5em] text-brand-muted mb-6 font-medium block">INDUSTRIES</span>
+            <h2 className="text-5xl md:text-7xl font-light leading-tight">
+              Sectors We <br />
+              <span className="italic text-brand-accent">Elevate</span>
+            </h2>
+          </div>
+          <div className="lg:col-span-7">
+            <p className="text-base text-brand-muted font-light leading-relaxed max-w-xl">
+              Our multidisciplinary background allows us to build powerful brand experiences, beautiful products, and high-conversion web layouts across various industries, creating tailored and scalable digital assets.
+            </p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+          {industries.map((industry, idx) => (
+            <motion.div
+              key={industry.name}
+              initial={{ opacity: 0, y: 15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.4, delay: idx * 0.05 }}
+              className="p-6 border border-brand-ink/5 bg-white hover:border-brand-accent/40 rounded-xl transition-all duration-300 flex flex-col justify-between group cursor-default"
+            >
+              <div className="flex justify-between items-start mb-8">
+                <div className="text-[10px] uppercase tracking-widest text-brand-accent/40 font-mono font-semibold group-hover:text-brand-accent transition-colors">
+                  {idx + 1 < 10 ? `0${idx + 1}` : idx + 1}
+                </div>
+                <div className="text-brand-accent/50 group-hover:text-brand-accent group-hover:scale-110 transition-all duration-300">
+                  {industry.icon}
+                </div>
+              </div>
+              <h3 className="text-sm font-sans font-medium text-brand-ink leading-snug group-hover:text-brand-accent transition-colors">
+                {industry.name}
+              </h3>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+};
+
 const Services = () => {
   const services = [
     {
@@ -267,8 +646,8 @@ const Services = () => {
     <section id="services" className="py-24 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-20 text-center flex flex-col items-center">
-          <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-accent mb-4">Our Services</span>
-          <h2 className="text-5xl md:text-6xl font-light">Elevate Your Presence</h2>
+          <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Expertise</span>
+          <h2 className="text-5xl md:text-7xl font-light">Services</h2>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
@@ -410,8 +789,8 @@ const Process = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid lg:grid-cols-3 gap-16">
           <div className="col-span-1">
-            <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-accent mb-4 block">The Process</span>
-            <h2 className="text-5xl font-light mb-8">How We Work</h2>
+            <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">The Process</span>
+            <h2 className="text-5xl md:text-7xl font-light mb-8 leading-tight">How We Work</h2>
             <p className="text-brand-paper/40 font-light leading-relaxed mb-8">
               Every project follows a refined methodology to ensure consistency, quality, and results that exceed expectations.
             </p>
@@ -443,7 +822,8 @@ const Contact = () => {
           <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-accent/5 -skew-x-12 translate-x-1/2 pointer-events-none"></div>
 
           <div className="max-w-3xl relative z-10">
-            <h2 className="text-5xl md:text-7xl mb-8 leading-tight">
+            <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Get in Touch</span>
+            <h2 className="text-5xl md:text-7xl font-light mb-8 leading-tight">
               Let’s Build Something <br />
               <span className="italic text-brand-accent">Exceptional</span>
             </h2>
@@ -528,7 +908,12 @@ export default function App() {
       >
         <About />
       </motion.div>
+      <Experience />
+      <WhyChooseMe />
+      <Stats />
       <Services />
+      <Capabilities />
+      <Industries />
       <Portfolio />
       <Process />
       <Contact />
