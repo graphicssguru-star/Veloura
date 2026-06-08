@@ -5,6 +5,8 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from 'motion/react';
+import ProjectsPage from './components/ProjectsPage';
+import BookingModal from './components/BookingModal';
 import { 
   ArrowRight, 
   ChevronRight, 
@@ -42,15 +44,59 @@ import {
   Box
 } from 'lucide-react';
 
+export const whatsappLink = "https://wa.me/917977765228?text=" + encodeURIComponent(
+`Hello AAKAR Studio,
+
+I came across your website and would like to know more about your services.
+
+My requirement is:
+□ Branding
+□ UI/UX Design
+□ Website Design
+□ Mobile App Design
+□ Social Media Marketing
+□ Other
+
+Looking forward to connecting.`
+);
+
 // --- Components ---
 
-const Navbar = () => {
+const Navbar = ({ onBookClick }: { onBookClick: () => void }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50);
-    window.addEventListener('scroll', handleScroll);
+    let lastY = window.scrollY;
+    
+    const handleScroll = () => {
+      const currentY = window.scrollY;
+      
+      // Control scrolled state (threshold for background)
+      if (currentY > 40) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+
+      // Hide or show navbar based on scroll direction
+      if (currentY <= 60) {
+        // Always display at the top of the page
+        setVisible(true);
+      } else if (currentY > lastY) {
+        // Scrolling down -> hide
+        setVisible(false);
+        setIsOpen(false); // Close mobile menu if open during scroll
+      } else {
+        // Scrolling up -> show
+        setVisible(true);
+      }
+      
+      lastY = currentY;
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
@@ -65,14 +111,22 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-500 ${scrolled ? 'bg-brand-paper/80 backdrop-blur-md border-b border-brand-ink/5 py-4' : 'bg-transparent py-8'}`}>
-      <div className="max-w-7xl mx-auto px-6 flex justify-between items-center">
+    <nav 
+      className={`fixed left-1/2 -translate-x-1/2 z-50 transition-all duration-500 ease-in-out rounded-full ${
+        visible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 -translate-y-28 scale-95 pointer-events-none'
+      } top-6 w-[95%] max-w-7xl py-4 px-8 border ${
+        scrolled 
+          ? 'bg-brand-paper/95 backdrop-blur-md border-brand-ink/10 shadow-xl shadow-brand-ink/5' 
+          : 'bg-brand-paper/50 backdrop-blur-sm border-brand-ink/5 shadow-sm shadow-brand-ink/2'
+      }`}
+    >
+      <div className="w-full flex justify-between items-center">
         <a href="#" className="font-serif text-2xl font-bold tracking-tighter hover:opacity-70 transition-opacity">
-          AAKAR<span className="text-brand-accent">.</span>
+          AAKAR <span className="text-brand-accent italic">Studio</span><span className="text-brand-accent">.</span>
         </a>
-
+ 
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-12">
+        <div className="hidden md:flex items-center gap-10">
           {navLinks.map((link) => (
             <a 
               key={link.name} 
@@ -82,46 +136,47 @@ const Navbar = () => {
               {link.name}
             </a>
           ))}
-          <a 
-            href="#contact" 
-            className="px-6 py-2 border border-brand-ink text-xs uppercase tracking-widest hover:bg-brand-ink hover:text-brand-paper transition-all"
+          <button 
+            id="nav-book-a-call"
+            onClick={onBookClick}
+            className="px-6 py-2 border border-brand-ink text-xs uppercase tracking-widest hover:bg-brand-ink hover:text-brand-paper transition-all cursor-pointer bg-transparent rounded-full font-semibold"
           >
             Book a Call
-          </a>
+          </button>
         </div>
-
+ 
         {/* Mobile Toggle */}
-        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-brand-ink">
+        <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-brand-ink bg-transparent border-none cursor-pointer p-1">
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
       </div>
-
+ 
       {/* Mobile Menu */}
       <AnimatePresence>
         {isOpen && (
           <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 w-full bg-brand-paper border-b border-brand-ink/10 p-8 flex flex-col items-center gap-6 md:hidden shadow-xl"
+            initial={{ opacity: 0, y: -15, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -15, scale: 0.95 }}
+            className="absolute top-full left-0 w-full bg-brand-paper/95 backdrop-blur-md border border-brand-ink/10 p-8 flex flex-col items-center gap-6 md:hidden shadow-2xl rounded-2xl mt-3"
           >
             {navLinks.map((link) => (
               <a 
                 key={link.name} 
                 href={link.href} 
                 onClick={() => setIsOpen(false)}
-                className="text-sm uppercase tracking-widest font-medium"
+                className="text-sm uppercase tracking-widest font-medium text-brand-ink hover:text-brand-accent transition-colors"
               >
                 {link.name}
               </a>
             ))}
-            <a 
-              href="#contact" 
-              onClick={() => setIsOpen(false)}
-              className="w-full text-center py-3 bg-brand-ink text-brand-paper text-xs uppercase tracking-widest"
+            <button 
+              id="mob-nav-book-a-call"
+              onClick={() => { setIsOpen(false); onBookClick(); }}
+              className="w-full text-center py-3 bg-brand-ink text-brand-paper text-xs uppercase tracking-widest cursor-pointer border-none rounded-full font-semibold"
             >
               Book a Call
-            </a>
+            </button>
           </motion.div>
         )}
       </AnimatePresence>
@@ -129,14 +184,23 @@ const Navbar = () => {
   );
 };
 
-const Hero = () => {
-  const { scrollY } = useScroll();
-  const y = useTransform(scrollY, [0, 500], [0, 200]);
+const Hero = ({ onBookClick }: { onBookClick: () => void }) => {
+  const containerRef = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end start"]
+  });
+
+  const textY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
+  const imgY = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
+  const giantTextY = useTransform(scrollYProgress, [0, 1], ["10%", "-60%"]);
+  const circleY = useTransform(scrollYProgress, [0, 1], ["0%", "-80%"]);
 
   return (
-    <section className="relative min-h-screen flex items-center pt-24 overflow-hidden">
+    <section ref={containerRef} className="relative min-h-screen flex items-center pt-24 overflow-hidden bg-brand-paper">
       <div className="max-w-7xl mx-auto px-6 w-full grid lg:grid-cols-2 gap-12 items-center relative z-10">
         <motion.div
+          style={{ y: textY }}
           initial={{ opacity: 0, x: -50 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ duration: 0.8, ease: "easeOut" }}
@@ -152,21 +216,24 @@ const Hero = () => {
             Customers
           </h1>
           <p className="max-w-md text-lg text-brand-muted mb-10 font-light leading-relaxed">
-            Branding, UI/UX & Social Media for Restaurants and Lifestyle Brands looking to elevate their digital presence.
+            Branding, UI/UX & Digital Experiences for businesses looking to elevate their brand and digital presence.
           </p>
           <div className="flex flex-wrap gap-4">
             <a href="#work" className="group px-8 py-4 bg-brand-ink text-brand-paper flex items-center gap-3 hover:translate-y-[-2px] transition-transform">
               <span className="text-sm uppercase tracking-widest">View Work</span>
               <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
             </a>
-            <a href="#contact" className="px-8 py-4 border border-brand-ink/20 text-brand-ink hover:bg-brand-ink/5 transition-colors">
-              <span className="text-sm uppercase tracking-widest">Book Consultation</span>
-            </a>
+            <button 
+              onClick={onBookClick} 
+              className="px-8 py-4 border border-brand-ink/20 text-brand-ink hover:bg-brand-ink/5 transition-colors cursor-pointer bg-transparent"
+            >
+              <span className="text-sm uppercase tracking-widest font-bold">Book Consultation</span>
+            </button>
           </div>
         </motion.div>
 
         <motion.div 
-          style={{ y }}
+          style={{ y: imgY }}
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1, delay: 0.2 }}
@@ -182,7 +249,10 @@ const Hero = () => {
             <div className="absolute inset-0 bg-gradient-to-t from-brand-paper/40 to-transparent"></div>
           </div>
           {/* Decorative Elements */}
-          <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-brand-accent/10 rounded-full blur-3xl -z-10"></div>
+          <motion.div 
+            style={{ y: circleY }}
+            className="absolute -bottom-10 -right-10 w-48 h-48 bg-brand-accent/10 rounded-full blur-3xl -z-10"
+          ></motion.div>
           <div className="absolute top-20 -left-10 text-xs uppercase tracking-widest flex items-center gap-4 [writing-mode:vertical-rl] opacity-40">
             <span>Since 1999</span>
             <span className="w-[1px] h-24 bg-brand-ink"></span>
@@ -191,83 +261,147 @@ const Hero = () => {
       </div>
 
       {/* Floating Background Text */}
-      <div className="absolute bottom-0 right-0 opacity-[0.03] select-none pointer-events-none translate-y-1/4">
+      <motion.div 
+        style={{ y: giantTextY }}
+        className="absolute bottom-0 right-0 opacity-[0.03] select-none pointer-events-none translate-y-1/4"
+      >
         <span className="text-[30rem] font-serif leading-none italic font-bold">Aakar</span>
-      </div>
+      </motion.div>
     </section>
   );
 };
 
 const About = () => {
+  const containerRef = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const bgTextY = useTransform(scrollYProgress, [0, 1], ["-10%", "35%"]);
+  const colY = useTransform(scrollYProgress, [0, 1], ["3%", "-3%"]);
+
   return (
-    <section id="about" className="py-24 bg-brand-ink text-brand-paper overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-start">
-        <div className="relative">
+    <section ref={containerRef} id="about" className="py-24 bg-brand-ink text-brand-paper overflow-hidden relative">
+      {/* Background Parallax Typography */}
+      <motion.div
+        style={{ y: bgTextY }}
+        className="absolute left-6 top-10 text-[30rem] font-serif font-bold italic text-brand-paper/[0.015] select-none pointer-events-none leading-none z-0"
+      >
+        Aakar
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-16 items-start relative z-10">
+        <motion.div style={{ y: colY }} className="relative">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Who We Are</span>
-            <h2 className="text-5xl md:text-7xl font-light text-brand-paper mb-8 leading-tight">
+            <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">WHO WE ARE</span>
+            <h2 className="text-5xl md:text-7xl font-light text-brand-paper mb-4 leading-tight">
               About <span className="italic text-brand-accent">Aakar</span>
             </h2>
-            <p className="text-2xl md:text-3xl font-light leading-relaxed text-brand-paper/85 max-w-xl font-serif italic mb-8">
-              With 25+ years of design experience, we blend <span className="italic">branding</span>, UI/UX, and <span className="italic">visual storytelling</span> to create premium digital experiences.
+            <h3 className="text-2xl md:text-3xl font-light leading-relaxed text-brand-accent max-w-xl font-serif italic mb-8">
+              A New Studio Built on Decades of Creative Expertise
+            </h3>
+            <p className="text-base font-light text-brand-paper/85 leading-relaxed max-w-xl mb-6">
+              AAKAR Studio is a creative design studio specializing in branding, UI/UX design, visual communication, and digital experiences.
+            </p>
+            <p className="text-base font-light text-brand-paper/85 leading-relaxed max-w-xl mb-6">
+              Built on over <strong className="font-semibold text-brand-accent">25 years of industry experience</strong>, the studio brings together strategic thinking, creative craftsmanship, and user-centered design to help businesses create meaningful connections with their audiences.
+            </p>
+            <p className="text-base font-light text-brand-paper/70 leading-relaxed max-w-xl mb-6">
+              While the studio itself represents a fresh beginning, its foundation is shaped by decades of experience delivering impactful design solutions across multiple industries.
+            </p>
+            <p className="text-lg font-serif italic text-brand-accent leading-relaxed max-w-xl mb-8">
+              "We believe great design is not only seen—it is experienced."
             </p>
           </motion.div>
           
-          <div className="mt-16 grid grid-cols-2 gap-8">
+          <div className="mt-16 grid grid-cols-2 gap-8 border-t border-brand-paper/10 pt-8">
             <div>
-              <div className="text-4xl font-serif mb-2">25<span className="text-brand-accent text-2xl font-sans">+</span></div>
-              <div className="text-[10px] uppercase tracking-widest text-brand-paper/50">Years Experience</div>
+              <div className="text-5xl font-serif mb-2 text-brand-accent">25<span className="text-brand-paper text-2xl font-sans">+</span></div>
+              <div className="text-[10px] uppercase tracking-widest text-brand-paper/50">YEARS OF DESIGN EXPERIENCE</div>
             </div>
             <div>
-              <div className="text-4xl font-serif mb-2">150<span className="text-brand-accent text-2xl font-sans">+</span></div>
-              <div className="text-[10px] uppercase tracking-widest text-brand-paper/50">Projects Delivered</div>
+              <div className="text-5xl font-serif mb-2 text-brand-accent">150<span className="text-brand-paper text-2xl font-sans">+</span></div>
+              <div className="text-[10px] uppercase tracking-widest text-brand-paper/50">PROJECTS DELIVERED</div>
             </div>
           </div>
-        </div>
-
-        <div className="space-y-12 pt-12 md:pt-24">
-          <motion.p 
+        </motion.div>
+ 
+        <motion.div style={{ y: colY }} className="space-y-12 pt-12 md:pt-24">
+          <motion.div 
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ delay: 0.3 }}
-            className="text-lg text-brand-paper/60 font-light leading-relaxed"
+            className="border-l-2 border-brand-accent/50 pl-6 py-2"
           >
-            We focus on design that not only looks elegant but also drives real business results. Our approach is strategic, detail-oriented, and tailored to lifestyle brands that value aesthetics as much as efficiency.
-          </motion.p>
+            <p className="text-lg text-brand-paper/90 font-light leading-relaxed font-serif italic">
+              "We partner with businesses that value thoughtful design, strong branding, and exceptional user experiences. Every project is approached with clarity, creativity, and a commitment to delivering work that creates lasting impact."
+            </p>
+          </motion.div>
           
           <div className="border-t border-brand-paper/10 pt-12 grid gap-8">
-            <div className="flex gap-6 items-center group cursor-default">
-              <div className="w-12 h-12 flex items-center justify-center border border-brand-paper/20 rounded-full group-hover:bg-brand-accent group-hover:border-brand-accent transition-colors">
+            <div className="flex gap-6 items-start group cursor-default">
+              <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center border border-brand-paper/20 rounded-full group-hover:bg-brand-accent group-hover:border-brand-accent transition-colors">
+                <Compass size={20} className="text-brand-accent group-hover:text-brand-paper" />
+              </div>
+              <div>
+                <h4 className="text-sm uppercase tracking-widest font-medium mb-1">✦ CREATIVE EXCELLENCE</h4>
+                <p className="text-xs text-brand-paper/50 leading-relaxed">Thoughtfully crafted design that balances aesthetics and purpose.</p>
+              </div>
+            </div>
+ 
+            <div className="flex gap-6 items-start group cursor-default">
+              <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center border border-brand-paper/20 rounded-full group-hover:bg-brand-accent group-hover:border-brand-accent transition-colors">
+                <Target size={20} className="text-brand-accent group-hover:text-brand-paper" />
+              </div>
+              <div>
+                <h4 className="text-sm uppercase tracking-widest font-medium mb-1">✦ STRATEGIC THINKING</h4>
+                <p className="text-xs text-brand-paper/50 leading-relaxed">Design decisions guided by business goals and user needs.</p>
+              </div>
+            </div>
+ 
+            <div className="flex gap-6 items-start group cursor-default">
+              <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center border border-brand-paper/20 rounded-full group-hover:bg-brand-accent group-hover:border-brand-accent transition-colors">
+                <Laptop size={20} className="text-brand-accent group-hover:text-brand-paper" />
+              </div>
+              <div>
+                <h4 className="text-sm uppercase tracking-widest font-medium mb-1">✦ DIGITAL EXPERIENCES</h4>
+                <p className="text-xs text-brand-paper/50 leading-relaxed">Creating intuitive and engaging experiences across web and mobile.</p>
+              </div>
+            </div>
+ 
+            <div className="flex gap-6 items-start group cursor-default">
+              <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center border border-brand-paper/20 rounded-full group-hover:bg-brand-accent group-hover:border-brand-accent transition-colors">
                 <Award size={20} className="text-brand-accent group-hover:text-brand-paper" />
               </div>
               <div>
-                <h4 className="text-sm uppercase tracking-widest font-medium mb-1">Premium Execution</h4>
-                <p className="text-xs text-brand-paper/40">Hand-crafted details for high-end results.</p>
-              </div>
-            </div>
-            <div className="flex gap-6 items-center group cursor-default">
-              <div className="w-12 h-12 flex items-center justify-center border border-brand-paper/20 rounded-full group-hover:bg-brand-accent group-hover:border-brand-accent transition-colors">
-                <Sparkles size={20} className="text-brand-accent group-hover:text-brand-paper" />
-              </div>
-              <div>
-                <h4 className="text-sm uppercase tracking-widest font-medium mb-1">Strategic Storytelling</h4>
-                <p className="text-xs text-brand-paper/40">Design that speaks your brand's unique voice.</p>
+                <h4 className="text-sm uppercase tracking-widest font-medium mb-1">✦ PREMIUM EXECUTION</h4>
+                <p className="text-xs text-brand-paper/50 leading-relaxed">Attention to detail, consistency, and quality in every deliverable.</p>
               </div>
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 };
 
 const Experience = () => {
+  const containerRef = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const colY = useTransform(scrollYProgress, [0, 1], ["3%", "-3%"]);
+  const bgBadgeY = useTransform(scrollYProgress, [0, 1], ["-12%", "30%"]);
+
   const coreExpertise = [
     { name: "Brand Identity Design", icon: <Palette size={16} /> },
     { name: "Creative Direction", icon: <Compass size={16} /> },
@@ -286,9 +420,20 @@ const Experience = () => {
   ];
 
   return (
-    <section id="experience" className="py-24 bg-brand-paper overflow-hidden border-b border-brand-ink/5">
-      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 items-start">
-        <div className="lg:col-span-5 relative">
+    <section ref={containerRef} id="experience" className="py-24 bg-brand-paper overflow-hidden border-b border-brand-ink/5 relative">
+      {/* Absolute background element */}
+      <motion.div 
+        style={{ y: bgBadgeY }} 
+        className="absolute right-0 bottom-10 text-[18rem] font-serif italic text-brand-ink/[0.015] select-none pointer-events-none"
+      >
+        Expertise
+      </motion.div>
+
+      <div className="max-w-7xl mx-auto px-6 grid lg:grid-cols-12 gap-16 items-start relative z-10">
+        <motion.div
+          style={{ y: colY }}
+          className="lg:col-span-5 relative"
+        >
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -310,9 +455,9 @@ const Experience = () => {
               </div>
             </div>
           </motion.div>
-        </div>
+        </motion.div>
 
-        <div className="lg:col-span-7 space-y-12">
+        <motion.div style={{ y: colY }} className="lg:col-span-7 space-y-12">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -351,13 +496,24 @@ const Experience = () => {
               ))}
             </div>
           </div>
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 };
 
 const Capabilities = () => {
+  const containerRef = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const bgCircleY = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
+
+  // Unified, aligned column-level scrolling factor
+  const colY = useTransform(scrollYProgress, [0, 1], ["3%", "-3%"]);
+
   const categories = [
     {
       title: "Brand & Identity",
@@ -387,8 +543,8 @@ const Capabilities = () => {
   ];
 
   return (
-    <section id="capabilities" className="py-24 bg-brand-ink text-brand-paper relative overflow-hidden border-b border-brand-paper/5">
-      <div className="max-w-7xl mx-auto px-6">
+    <section ref={containerRef} id="capabilities" className="py-24 bg-brand-ink text-brand-paper relative overflow-hidden border-b border-brand-paper/5">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-12 gap-12 items-start mb-20">
           <div className="lg:col-span-5 relative">
             <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Our Scope</span>
@@ -407,11 +563,12 @@ const Capabilities = () => {
         <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
           {categories.map((category, idx) => (
             <motion.div
+              style={{ y: colY }}
               key={category.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
+              transition={{ duration: 0.6 }}
               className="p-8 border border-brand-paper/5 bg-brand-paper/[0.02] hover:bg-brand-paper/[0.05] hover:border-brand-accent/40 transition-all duration-500 flex flex-col h-full group"
             >
               <div className="mb-6 p-3 bg-brand-paper/[0.03] w-fit rounded-lg group-hover:bg-brand-accent/10 transition-colors duration-500">
@@ -434,12 +591,23 @@ const Capabilities = () => {
       </div>
 
       {/* Decorative details */}
-      <div className="absolute right-0 top-1/4 w-96 h-96 bg-brand-accent/5 rounded-full blur-3xl -z-10 pointer-events-none"></div>
+      <motion.div 
+        style={{ y: bgCircleY }}
+        className="absolute right-0 top-1/4 w-96 h-96 bg-brand-accent/5 rounded-full blur-3xl -z-10 pointer-events-none"
+      ></motion.div>
     </section>
   );
 };
 
 const WhyChooseMe = () => {
+  const containerRef = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const colY = useTransform(scrollYProgress, [0, 1], ["3%", "-3%"]);
+
   const points = [
     { title: "25+ Years Creative Experience", desc: "A quarter-century of designing for luxury and leading brands globally." },
     { title: "Print + Digital Expertise", desc: "Seamless synergy across tangible offline assets and digital ecosystems." },
@@ -450,10 +618,10 @@ const WhyChooseMe = () => {
   ];
 
   return (
-    <section id="why-us" className="py-24 bg-brand-paper relative overflow-hidden border-b border-brand-ink/5">
-      <div className="max-w-7xl mx-auto px-6">
+    <section ref={containerRef} id="why-us" className="py-24 bg-brand-paper relative overflow-hidden border-b border-brand-ink/5">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-12 gap-16 items-start mb-12">
-          <div className="lg:col-span-5">
+          <motion.div style={{ y: colY }} className="lg:col-span-5">
             <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Distinction</span>
             <span className="text-xs uppercase tracking-[0.5em] text-brand-muted mb-6 font-medium block">WHY CLIENTS WORK WITH ME</span>
             <h2 className="text-5xl md:text-7xl font-light mb-8 leading-tight">
@@ -473,9 +641,9 @@ const WhyChooseMe = () => {
                 "Because great design is not just seen. It is experienced."
               </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="lg:col-span-7 space-y-8">
+          <motion.div style={{ y: colY }} className="lg:col-span-7 space-y-8">
             <div className="grid sm:grid-cols-2 gap-6">
               {points.map((point, idx) => (
                 <motion.div
@@ -509,7 +677,7 @@ const WhyChooseMe = () => {
                 "I don't just create designs. I help businesses communicate better, look better, and grow through thoughtful design and digital experiences."
               </p>
             </motion.div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
@@ -517,6 +685,14 @@ const WhyChooseMe = () => {
 };
 
 const Stats = () => {
+  const containerRef = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const bgY = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
+
   const stats = [
     { value: "25+", label: "Years Experience" },
     { value: "200+", label: "Projects Delivered" },
@@ -526,9 +702,12 @@ const Stats = () => {
   ];
 
   return (
-    <section className="py-20 bg-brand-ink text-brand-paper relative overflow-hidden">
-      <div className="absolute inset-0 opacity-[0.02] pointer-events-none bg-[radial-gradient(#C5A059_1px,transparent_1px)] [background-size:16px_16px]"></div>
-      <div className="max-w-7xl mx-auto px-6">
+    <section ref={containerRef} className="py-20 bg-brand-ink text-brand-paper relative overflow-hidden">
+      <motion.div 
+        style={{ y: bgY }}
+        className="absolute inset-0 opacity-[0.04] pointer-events-none bg-[radial-gradient(#C5A059_2px,transparent_2px)] [background-size:20px_20px] scale-125"
+      ></motion.div>
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="mb-12">
           <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-accent mb-2 block">Track Record</span>
           <h2 className="text-sm uppercase tracking-[0.5em] text-brand-paper/40 font-medium">BY THE NUMBERS</h2>
@@ -559,6 +738,15 @@ const Stats = () => {
 };
 
 const Industries = () => {
+  const containerRef = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const leftY = useTransform(scrollYProgress, [0, 1], ["8%", "-8%"]);
+  const cardsY = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
+
   const industries = [
     { name: "Hospitality & Restaurants", icon: <Utensils size={20} /> },
     { name: "Healthcare & Wellness", icon: <Heart size={20} /> },
@@ -573,17 +761,17 @@ const Industries = () => {
   ];
 
   return (
-    <section className="py-24 bg-brand-paper overflow-hidden border-b border-brand-ink/5">
-      <div className="max-w-7xl mx-auto px-6">
+    <section ref={containerRef} className="py-24 bg-brand-paper overflow-hidden border-b border-brand-ink/5 relative">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-12 gap-12 items-center mb-16">
-          <div className="lg:col-span-5">
+          <motion.div style={{ y: leftY }} className="lg:col-span-5">
             <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Specialization</span>
             <span className="text-xs uppercase tracking-[0.5em] text-brand-muted mb-6 font-medium block">INDUSTRIES</span>
             <h2 className="text-5xl md:text-7xl font-light leading-tight">
               Sectors We <br />
               <span className="italic text-brand-accent">Elevate</span>
             </h2>
-          </div>
+          </motion.div>
           <div className="lg:col-span-7">
             <p className="text-base text-brand-muted font-light leading-relaxed max-w-xl">
               Our multidisciplinary background allows us to build powerful brand experiences, beautiful products, and high-conversion web layouts across various industries, creating tailored and scalable digital assets.
@@ -591,7 +779,7 @@ const Industries = () => {
           </div>
         </div>
 
-        <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
+        <motion.div style={{ y: cardsY }} className="grid grid-cols-2 lg:grid-cols-5 gap-4">
           {industries.map((industry, idx) => (
             <motion.div
               key={industry.name}
@@ -614,37 +802,48 @@ const Industries = () => {
               </h3>
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   );
 };
 
 const Services = () => {
+  const containerRef = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const cardY = useTransform(scrollYProgress, [0, 1], ["3%", "-3%"]);
+
   const services = [
     {
       title: "Brand Identity",
       desc: "Build a premium, memorable identity that attracts the right audience through refined visual language.",
       icon: <Layers size={24} />,
-      list: ["Logotype Design", "Color Strategy", "Brand Guidelines", "Visual Language"]
+      list: ["Logotype Design", "Color Strategy", "Brand Guidelines", "Visual Language"],
+      y: cardY
     },
     {
       title: "UI/UX Design",
       desc: "Create websites that don’t just look good—but convert visitors into loyal customers with seamless experience.",
       icon: <Compass size={24} />,
-      list: ["Responsive Web Design", "User Journeys", "Prototype Development", "Conversion Optimization"]
+      list: ["Responsive Web Design", "User Journeys", "Prototype Development", "Conversion Optimization"],
+      y: cardY
     },
     {
       title: "Social Media Design",
       desc: "Consistent, high-end visuals that elevate your brand presence across all digital touchpoints.",
       icon: <Sparkles size={24} />,
-      list: ["Content Systems", "Motion Graphics", "Template Design", "Art Direction"]
+      list: ["Content Systems", "Motion Graphics", "Template Design", "Art Direction"],
+      y: cardY
     }
   ];
 
   return (
-    <section id="services" className="py-24 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+    <section ref={containerRef} id="services" className="py-24 relative overflow-hidden bg-brand-paper">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="mb-20 text-center flex flex-col items-center">
           <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Expertise</span>
           <h2 className="text-5xl md:text-7xl font-light">Services</h2>
@@ -653,11 +852,12 @@ const Services = () => {
         <div className="grid md:grid-cols-3 gap-8">
           {services.map((service, idx) => (
             <motion.div
+              style={{ y: service.y }}
               key={service.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
               viewport={{ once: true }}
-              transition={{ delay: idx * 0.1 }}
+              transition={{ duration: 0.6 }}
               className="bg-white p-12 group hover:bg-brand-ink hover:text-brand-paper transition-all duration-500 border border-brand-ink/5"
             >
               <div className="text-brand-accent mb-8 group-hover:scale-110 transition-transform duration-500">
@@ -687,24 +887,32 @@ const PortfolioItem = ({ title, problem, solution, result, img, delay }: any) =>
   const ref = React.useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
 
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"]
+  });
+
+  const imgY = useTransform(scrollYProgress, [0, 1], ["-12%", "12%"]);
+
   return (
     <motion.div 
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
       transition={{ duration: 0.8, delay }}
-      className="group grid md:grid-cols-2 gap-0 border-b border-brand-ink/10 relative overflow-hidden"
+      className="group grid md:grid-cols-2 gap-0 border-b border-brand-ink/10 relative overflow-hidden min-h-[400px] md:min-h-[480px]"
     >
-      <div className="relative overflow-hidden aspect-video md:aspect-auto">
-        <img 
+      <div className="relative overflow-hidden min-h-[300px] md:min-h-full">
+        <motion.img 
+          style={{ y: imgY, height: "134%", top: "-17%" }}
           src={img} 
           alt={title} 
-          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+          className="absolute inset-x-0 w-full object-cover grayscale brightness-90 filter transition-all duration-700 group-hover:brightness-100 group-hover:scale-105"
           referrerPolicy="no-referrer"
         />
-        <div className="absolute inset-0 bg-brand-ink/20 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+        <div className="absolute inset-0 bg-brand-ink/20 opacity-30 group-hover:opacity-10 transition-opacity duration-500"></div>
       </div>
-      <div className="p-8 md:p-16 flex flex-col justify-center">
+      <div className="p-8 md:p-16 flex flex-col justify-center bg-brand-paper">
         <div className="flex justify-between items-start mb-8">
           <h3 className="text-3xl md:text-4xl">{title}</h3>
           <a href="#" className="w-12 h-12 flex items-center justify-center border border-brand-ink/10 rounded-full hover:bg-brand-ink hover:text-brand-paper transition-all">
@@ -731,52 +939,79 @@ const PortfolioItem = ({ title, problem, solution, result, img, delay }: any) =>
   );
 };
 
-const Portfolio = () => {
+const Portfolio = ({ onViewAllClick }: { onViewAllClick: () => void }) => {
   return (
     <section id="work" className="py-24">
-      <div className="max-w-7xl mx-auto px-6 mb-16 flex justify-between items-end">
+      <div className="max-w-7xl mx-auto px-6 mb-16 grid md:grid-cols-2 gap-8 items-end">
         <div>
           <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Our Work</span>
-          <h2 className="text-5xl md:text-7xl font-light">Featured Work</h2>
+          <h2 className="text-5xl md:text-7xl font-light mb-4">Featured Work</h2>
+          <p className="text-sm font-light text-brand-muted max-w-xl">
+            A curated selection of branding, UI/UX, digital product, and creative communication projects that reflect our passion for purposeful design and meaningful user experiences.
+          </p>
         </div>
-        <div className="hidden md:block">
-          <a href="#" className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold group">
-            View All Projects <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
-          </a>
+        <div className="flex md:justify-end">
+          <button 
+            id="btn-portfolio-view-all"
+            onClick={onViewAllClick}
+            className="flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold group cursor-pointer bg-transparent border-none text-brand-accent hover:text-brand-ink transition-colors"
+          >
+            View All Projects <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform animate-pulse" />
+          </button>
         </div>
       </div>
 
       <div className="border-t border-brand-ink/10">
         <PortfolioItem 
-          title="Luxury Restaurant Branding"
-          problem="Outdated branding and low digital engagement among premium audience."
-          solution="Elegant visual identity with a high-conversion modern UI system."
-          result="40% increase in online reservations."
-          img="https://picsum.photos/seed/resto/1200/800"
+          title="Healthcare & Wellness Digital Experience"
+          problem="Complex healthcare and wellness services needed a more engaging digital presence and a seamless customer journey."
+          solution="Designed user-centric digital experiences, campaign landing pages, emailers, social media creatives, and visual communication systems."
+          result="Stronger audience engagement, improved brand consistency, and a more connected digital ecosystem."
+          img="https://picsum.photos/seed/healthcarewellness/1200/800"
           delay={0.1}
         />
         <PortfolioItem 
-          title="Cafe Social Media System"
-          problem="Inconsistent visual presence across diverse social channels."
-          solution="Cohesive social media design system with high-end photography."
-          result="Better engagement and stronger brand recall."
-          img="https://picsum.photos/seed/cafe/1200/800"
+          title="Enterprise Mobile Application Design"
+          problem="Users faced challenges navigating complex workflows and completing tasks efficiently."
+          solution="Created intuitive user journeys, wireframes, design systems, and modern mobile interfaces focused on usability."
+          result="Improved user experience, streamlined interactions, and enhanced product adoption."
+          img="https://picsum.photos/seed/enterprisesystem/1200/800"
           delay={0.2}
         />
         <PortfolioItem 
-          title="Wellness Brand Growth"
-          problem="Low conversion rate on digital landing pages."
-          solution="Clean, conversion-focused UI design focused on user empathy."
-          result="2.5x increase in lead generation potential."
-          img="https://picsum.photos/seed/wellness/1200/800"
+          title="Restaurant Brand Transformation"
+          problem="Limited digital visibility and inconsistent brand communication across customer touchpoints."
+          solution="Developed branding assets, menu communication, social media campaigns, promotional creatives, and customer engagement strategies."
+          result="Enhanced brand perception, stronger customer engagement, and increased local visibility."
+          img="https://picsum.photos/seed/restaurantbrand/1200/800"
           delay={0.3}
         />
+      </div>
+
+      {/* Button to load more/view all projects at the bottom of featured work home list */}
+      <div className="max-w-7xl mx-auto px-6 mt-16 text-center">
+        <button 
+          id="btn-works-load-more"
+          onClick={onViewAllClick}
+          className="group inline-flex items-center gap-3 px-8 py-4 bg-brand-ink text-brand-paper hover:bg-brand-accent hover:text-brand-paper transition-all cursor-pointer rounded-lg font-medium"
+        >
+          <span className="text-xs uppercase tracking-widest font-bold">View All Projects</span>
+          <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+        </button>
       </div>
     </section>
   );
 };
 
 const Process = () => {
+  const containerRef = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const colY = useTransform(scrollYProgress, [0, 1], ["3%", "-3%"]);
+
   const steps = [
     { num: "01", title: "Discovery", desc: "Understanding your brand, audience, and deep business goals." },
     { num: "02", title: "Strategy", desc: "Defining the design direction, structure, and market positioning." },
@@ -785,10 +1020,10 @@ const Process = () => {
   ];
 
   return (
-    <section id="process" className="py-24 bg-[#101010] text-brand-paper">
-      <div className="max-w-7xl mx-auto px-6">
+    <section ref={containerRef} id="process" className="py-24 bg-[#101010] text-brand-paper overflow-hidden relative">
+      <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid lg:grid-cols-3 gap-16">
-          <div className="col-span-1">
+          <motion.div style={{ y: colY }} className="col-span-1">
             <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">The Process</span>
             <h2 className="text-5xl md:text-7xl font-light mb-8 leading-tight">How We Work</h2>
             <p className="text-brand-paper/40 font-light leading-relaxed mb-8">
@@ -797,29 +1032,40 @@ const Process = () => {
             <div className="w-16 h-16 border border-brand-paper/10 rounded-full flex items-center justify-center text-brand-accent">
               <Sparkles size={24} />
             </div>
-          </div>
-          <div className="col-span-2 grid md:grid-cols-2 gap-8">
+          </motion.div>
+          <motion.div style={{ y: colY }} className="col-span-2 grid md:grid-cols-2 gap-8">
             {steps.map((step) => (
-              <div key={step.num} className="p-10 border border-brand-paper/5 hover:border-brand-accent/30 transition-colors group">
+              <div key={step.num} className="p-10 border border-brand-paper/5 hover:border-brand-accent/30 transition-colors group bg-neutral-900/10">
                 <div className="text-5xl font-serif text-brand-accent/20 group-hover:text-brand-accent transition-colors mb-6">{step.num}</div>
                 <h3 className="text-xl mb-4 group-hover:translate-x-2 transition-transform duration-300">{step.title}</h3>
                 <p className="text-sm font-light text-brand-paper/40 group-hover:text-brand-paper/60 transition-colors">{step.desc}</p>
               </div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
   );
 };
 
-const Contact = () => {
+const Contact = ({ onBookClick }: { onBookClick: () => void }) => {
+  const containerRef = React.useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const highlightY = useTransform(scrollYProgress, [0, 1], ["-15%", "15%"]);
+
   return (
-    <section id="contact" className="py-24 relative">
+    <section ref={containerRef} id="contact" className="py-24 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-6">
         <div className="bg-brand-paper border border-brand-ink/5 p-12 md:p-24 shadow-2xl relative overflow-hidden">
-          {/* Background Highlight */}
-          <div className="absolute top-0 right-0 w-1/2 h-full bg-brand-accent/5 -skew-x-12 translate-x-1/2 pointer-events-none"></div>
+          {/* Background Highlight with scroll Parallax */}
+          <motion.div 
+            style={{ y: highlightY }}
+            className="absolute top-0 right-0 w-1/2 h-[130%] bg-brand-accent/5 -skew-x-12 translate-x-1/2 pointer-events-none"
+          ></motion.div>
 
           <div className="max-w-3xl relative z-10">
             <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Get in Touch</span>
@@ -832,21 +1078,31 @@ const Contact = () => {
             </p>
 
             <div className="flex flex-col md:flex-row gap-8">
-              <a href="#" className="flex-1 flex items-center gap-6 p-6 border border-brand-ink/10 hover:bg-brand-ink group transition-colors">
-                <div className="w-12 h-12 flex items-center justify-center bg-brand-accent text-white rounded-full">
+              <button 
+                id="contact-book-call"
+                onClick={onBookClick} 
+                className="flex-1 flex items-center text-left gap-6 p-6 border border-brand-ink/10 hover:bg-brand-ink group transition-colors cursor-pointer bg-transparent"
+              >
+                <div className="w-12 h-12 flex-shrink-0 flex items-center justify-center bg-brand-accent text-white rounded-full">
                   <Calendar size={24} />
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase tracking-widest text-brand-muted group-hover:text-brand-paper/40">Schedule</span>
-                  <div className="text-sm font-medium group-hover:text-brand-paper">Book a Call</div>
+                  <span className="text-[10px] uppercase tracking-widest text-brand-muted group-hover:text-brand-paper/40 font-mono">Schedule</span>
+                  <div className="text-sm font-medium group-hover:text-brand-paper text-brand-ink">Book a Call</div>
                 </div>
-              </a>
-              <a href="#" className="flex-1 flex items-center gap-6 p-6 border border-brand-ink/10 hover:bg-brand-ink group transition-colors">
+              </button>
+              <a 
+                href={whatsappLink} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex-1 flex items-center gap-6 p-6 border border-brand-ink/10 hover:bg-brand-ink group transition-colors"
+                id="contact-whatsapp"
+              >
                 <div className="w-12 h-12 flex items-center justify-center bg-[#25D366] text-white rounded-full">
                   <MessageSquare size={24} />
                 </div>
                 <div>
-                  <span className="text-[10px] uppercase tracking-widest text-brand-muted group-hover:text-brand-paper/40">Chat</span>
+                  <span className="text-[10px] uppercase tracking-widest text-brand-muted group-hover:text-brand-paper/40 font-mono">Chat</span>
                   <div className="text-sm font-medium group-hover:text-brand-paper">WhatsApp Us</div>
                 </div>
               </a>
@@ -860,7 +1116,7 @@ const Contact = () => {
                 <span className="text-xs uppercase tracking-widest font-medium">hello@aakar.studio</span>
               </div>
               <div className="h-[1px] flex-1 bg-brand-ink/10"></div>
-              <span className="text-[10px] uppercase tracking-widest text-brand-muted italic">Limited Clients per Month</span>
+              <span className="text-[10px] uppercase tracking-widest text-[#B5B5B5] italic">Limited Clients per Month</span>
             </div>
           </div>
         </div>
@@ -875,7 +1131,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
         <div>
           <a href="#" className="font-serif text-2xl font-bold tracking-tighter">
-            AAKAR<span className="text-brand-accent">.</span>
+            AAKAR <span className="text-brand-accent italic">Studio</span><span className="text-brand-accent">.</span>
           </a>
         </div>
         
@@ -896,28 +1152,69 @@ const Footer = () => {
 // --- Main App ---
 
 export default function App() {
+  const [view, setView] = useState<'home' | 'projects'>('home');
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+
+  // Automatically scroll to the top of the page on view change
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'instant' as any });
+  }, [view]);
+
+  const handleContactNavigate = () => {
+    if (view !== 'home') {
+      setView('home');
+      setTimeout(() => {
+        const contactSection = document.getElementById('contact');
+        if (contactSection) {
+          contactSection.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    } else {
+      const contactSection = document.getElementById('contact');
+      if (contactSection) {
+        contactSection.scrollIntoView({ behavior: 'smooth' });
+      }
+    }
+  };
+
   return (
-    <div className="min-h-screen selection:bg-brand-accent selection:text-white overflow-x-hidden">
-      <Navbar />
-      <Hero />
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1 }}
-      >
-        <About />
-      </motion.div>
-      <Experience />
-      <WhyChooseMe />
-      <Stats />
-      <Services />
-      <Capabilities />
-      <Industries />
-      <Portfolio />
-      <Process />
-      <Contact />
-      <Footer />
+    <div className="min-h-screen selection:bg-brand-accent selection:text-white overflow-x-hidden bg-brand-paper">
+      {view === 'home' ? (
+        <>
+          <Navbar onBookClick={() => setIsBookingOpen(true)} />
+          <Hero onBookClick={() => setIsBookingOpen(true)} />
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1 }}
+          >
+            <About />
+          </motion.div>
+          <Experience />
+          <WhyChooseMe />
+          <Stats />
+          <Services />
+          <Capabilities />
+          <Industries />
+          <Portfolio onViewAllClick={() => setView('projects')} />
+          <Process />
+          <Contact onBookClick={() => setIsBookingOpen(true)} />
+          <Footer />
+        </>
+      ) : (
+        <div className="animate-fadeIn">
+          <ProjectsPage 
+            onBackToHome={() => setView('home')} 
+            onContactClick={handleContactNavigate} 
+            onBookClick={() => setIsBookingOpen(true)}
+          />
+          <Footer />
+        </div>
+      )}
+
+      {/* Interactive Call Booking Modal */}
+      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
 
       {/* Smooth scroll anchor styles */}
       <style dangerouslySetInnerHTML={{ __html: `
