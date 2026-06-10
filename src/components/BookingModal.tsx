@@ -31,6 +31,7 @@ interface Booking {
   time: string;
   name: string;
   email: string;
+  phone: string;
   company: string;
   service: string;
   budget: string;
@@ -49,8 +50,14 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
   const [selectedBudget, setSelectedBudget] = useState<string>('$5,000 - $15,000');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [company, setCompany] = useState('');
   const [notes, setNotes] = useState('');
+  
+  // API Integration States
+  const [isLoading, setIsLoading] = useState(false);
+  const [apiError, setApiError] = useState<string | null>(null);
+  const [whatsappShareLink, setWhatsappShareLink] = useState('');
   
   // Calendar Navigate States
   const [currentMonth, setCurrentMonth] = useState(new Date());
@@ -127,9 +134,12 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     setStep(prev => prev - 1);
   };
 
-  const handleFinishBooking = (e: React.FormEvent) => {
+  const handleFinishBooking = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedDate || !selectedTime || !name || !email) return;
+    if (!selectedDate || !selectedTime || !name || !email || !phone) {
+      setApiError("Please make sure all required fields are filled out, including your Phone Number.");
+      return;
+    }
 
     const formattedDate = selectedDate.toLocaleDateString('en-US', { 
       weekday: 'long', 
@@ -138,69 +148,59 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
       day: 'numeric' 
     });
 
-    const newBooking: Booking = {
+    const bookingPayload = {
       id: 'BK-' + Math.floor(100000 + Math.random() * 900000),
       date: formattedDate,
       time: selectedTime,
-      name,
-      email,
-      company: company || 'N/A',
+      name: name.trim(),
+      email: email.trim(),
+      phone: phone.trim(),
+      company: company.trim() || 'N/A',
       service: selectedService,
       budget: selectedBudget,
-      notes: notes || 'No extra notes provided.',
-      createdAt: new Date().toLocaleDateString(),
+      notes: notes.trim() || 'No extra notes provided.',
     };
 
-    const updatedBookings = [newBooking, ...bookings];
-    setBookings(updatedBookings);
-    localStorage.setItem('aakar_bookings', JSON.stringify(updatedBookings));
-    setLatestBooking(newBooking);
+    setIsLoading(true);
+    setApiError(null);
 
-    // Generate and trigger prefilled mailto draft to aakarstudio.digital@gmail.com
-    const mailtoSubject = encodeURIComponent(`New Consultation Booking - ${newBooking.id} (${newBooking.name})`);
-    const mailtoBody = encodeURIComponent(
-`Hello AAKAR Studio,
-
-I have scheduled a creative consultation through your website portal.
-
-Here are my project and booking details:
--------------------------------------------
-- Booking ID: ${newBooking.id}
-- Preferred Date: ${newBooking.date}
-- Preferred Time Slot: ${newBooking.time}
-
-My Service Focus:
-- Service Required: ${newBooking.service}
-- Estimated Budget Range: ${newBooking.budget}
-
-My Contact & Project Info:
-- Name: ${newBooking.name}
-- Business Email: ${newBooking.email}
-- Brand / Company Name: ${newBooking.company}
-
-Additional Objectives & Scope Notes:
-${newBooking.notes}
--------------------------------------------
-
-Looking forward to our session!`
-    );
-
-    const mailtoUrl = `mailto:aakarstudio.digital@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
-    
-    // Automatically attempts to open native/web email client safely and reliably
     try {
-      const link = document.createElement('a');
-      link.href = mailtoUrl;
-      link.target = '_self';
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-    } catch (err) {
-      console.error("Failed to trigger mail client automatically:", err);
-      window.location.href = mailtoUrl;
-    }
+      const response = await fetch('/api/booking', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(bookingPayload),
+      });
 
-    setStep(4); // Advance to elegant success state
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || "Failed to submit booking details. Please try again.");
+      }
+
+      const confirmedBooking: Booking = result.booking || {
+        ...bookingPayload,
+        createdAt: new Date().toLocaleDateString()
+      };
+
+      const updatedBookings = [confirmedBooking, ...bookings];
+      setBookings(updatedBookings);
+      localStorage.setItem('aakar_bookings', JSON.stringify(updatedBookings));
+      setLatestBooking(confirmedBooking);
+
+      // Programmatically build the WhatsApp message specified by the client
+      const waMsg = `New Consultation Booking\n\nName: ${confirmedBooking.name}\nPhone: ${confirmedBooking.phone}\nDate: ${confirmedBooking.date}\nTime: ${confirmedBooking.time}\nProject: ${confirmedBooking.service}`;
+      const waUrl = `https://wa.me/917977765228?text=${encodeURIComponent(waMsg)}`;
+      setWhatsappShareLink(waUrl);
+
+      setStep(4); // Advance to elegant success state
+    } catch (err: any) {
+      console.error("Booking error details:", err);
+      setApiError(err.message || "An issue occurred while submitting your schedule. Please try again.");
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   const handleDeleteBooking = (id: string) => {
@@ -591,7 +591,19 @@ Looking forward to our session!`
                         />
                       </div>
 
-                      <div className="space-y-1.5Col md:col-span-2">
+                      <div className="space-y-1.5Col">
+                        <label className="text-[10px] uppercase tracking-widest text-brand-muted font-mono block">Your Phone *</label>
+                        <input 
+                          type="tel" 
+                          required
+                          value={phone}
+                          onChange={(e) => setPhone(e.target.value)}
+                          placeholder="+91 79777 65228"
+                          className="w-full px-4 py-3 bg-white border border-brand-ink/10 rounded focus:border-brand-accent focus:outline-none text-sm text-brand-ink placeholder:text-brand-muted/40 font-light"
+                        />
+                      </div>
+
+                      <div className="space-y-1.5Col">
                         <label className="text-[10px] uppercase tracking-widest text-brand-muted font-mono block">Brand / Company Name (Optional)</label>
                         <input 
                           type="text" 
@@ -614,11 +626,21 @@ Looking forward to our session!`
                       </div>
                     </div>
 
+                    {apiError && (
+                      <div className="p-4 bg-red-500/5 border border-red-500/20 text-red-600 text-xs rounded flex gap-2 items-start font-mono leading-relaxed animate-pulse">
+                        <div className="font-bold uppercase tracking-wider shrink-0 text-red-700">⚠️ Error:</div>
+                        <div>{apiError}</div>
+                      </div>
+                    )}
+
                     <div className="pt-6 border-t border-brand-ink/5 flex justify-between">
                       <button
                         type="button"
+                        disabled={isLoading}
                         onClick={handlePrevStep}
-                        className="px-6 py-3 text-xs uppercase tracking-widest font-bold flex items-center gap-2 hover:bg-brand-ink/5 transition-all text-brand-ink rounded border-none bg-transparent cursor-pointer"
+                        className={`px-6 py-3 text-xs uppercase tracking-widest font-bold flex items-center gap-2 hover:bg-brand-ink/5 transition-all text-brand-ink rounded border-none bg-transparent cursor-pointer ${
+                          isLoading ? "opacity-50 cursor-not-allowed" : ""
+                        }`}
                       >
                         <ArrowLeft size={14} />
                         <span>Previous</span>
@@ -627,10 +649,22 @@ Looking forward to our session!`
                       <button
                         id="btn-submit-booking"
                         type="submit"
-                        className="px-8 py-3 bg-brand-accent text-white hover:bg-brand-ink hover:text-brand-paper text-xs uppercase tracking-widest font-bold flex items-center gap-2 transition-all rounded shadow-lg border-none cursor-pointer"
+                        disabled={isLoading}
+                        className={`px-8 py-3 bg-brand-accent text-white hover:bg-brand-ink hover:text-brand-paper text-xs uppercase tracking-widest font-bold flex items-center gap-2 transition-all rounded shadow-lg border-none cursor-pointer ${
+                          isLoading ? "opacity-60 cursor-not-allowed" : ""
+                        }`}
                       >
-                        <span>Schedule Call</span>
-                        <Sparkles size={14} />
+                        {isLoading ? (
+                          <>
+                            <span className="w-3.5 h-3.5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                            <span>Scheduling...</span>
+                          </>
+                        ) : (
+                          <>
+                            <span>Schedule Call</span>
+                            <Sparkles size={14} />
+                          </>
+                        )}
                       </button>
                     </div>
                   </form>
@@ -686,26 +720,26 @@ Looking forward to our session!`
                         </div>
 
                         <div className="bg-brand-accent/[0.03] p-4 text-xs font-light text-brand-muted rounded border-l-2 border-brand-accent mb-3">
-                          <span className="font-semibold text-brand-ink block mb-1">📨 Email Dispatch:</span>
-                          We have formulated an email draft with your booking specifications destined for <strong className="font-semibold text-[#C5A059]">aakarstudio.digital@gmail.com</strong>. Please check and send the draft that was triggered. If it did not open automatically, click <strong>Email Details</strong> below.
+                          <span className="font-semibold text-brand-ink block mb-1">📨 Systems Active:</span>
+                          Your consultation details have been logged. An automated notification email has been dispatched to <strong className="font-semibold text-[#C5A059]">aakarstudio.digital@gmail.com</strong>, and a calendar invite confirmation has been sent to <strong className="font-semibold text-brand-ink">{latestBooking.email}</strong>.
                         </div>
 
                         <div className="bg-brand-ink/[0.02] p-4 text-xs font-light text-brand-muted rounded border-l-2 border-brand-ink/40">
                           <span className="font-semibold text-brand-ink block mb-1">💡 Preparation Tip:</span>
-                          Please prepare some current visual references, budget outlines, or mood boards to share directly in our meeting. You will receive a calendar invite from AAKAR Studio shortly.
+                          Please prepare some current visual references, budget outlines, or mood boards to share directly in our meeting. We look forward to creating stellar brand assets.
                         </div>
 
                         <div className="pt-4 border-t border-brand-ink/5 mt-4 text-center">
-                          <div className="text-[10px] uppercase font-mono tracking-wider font-bold text-brand-muted mb-2">Prefer instant messaging or email?</div>
+                          <div className="text-[10px] uppercase font-mono tracking-wider font-bold text-brand-muted mb-2">Want to dispatch direct status updates?</div>
                           <div className="flex flex-col sm:flex-row gap-2 justify-center">
                             <a 
-                              href={whatsappLink} 
+                              href={whatsappShareLink || whatsappLink} 
                               target="_blank" 
                               rel="noopener noreferrer"
-                              className="inline-flex items-center justify-center gap-2 text-xs font-semibold text-[#25D366] hover:text-[#128C7E] transition-colors bg-[#25D366]/5 hover:bg-[#25D366]/10 px-4 py-2.5 rounded border border-[#25D366]/20 cursor-pointer decoration-none"
+                              className="inline-flex items-center justify-center gap-2 text-xs font-semibold text-white hover:bg-[#128C7E] transition-colors bg-[#25D366] px-4 py-2.5 rounded border-none cursor-pointer decoration-none shadow-sm"
                             >
                               <MessageSquare size={14} />
-                              <span>WhatsApp Us</span>
+                              <span>WhatsApp Booking Details</span>
                             </a>
                             <a 
                               href={`mailto:aakarstudio.digital@gmail.com?subject=${encodeURIComponent(`New Consultation Booking - ${latestBooking.id} (${latestBooking.name})`)}&body=${encodeURIComponent(
@@ -726,6 +760,7 @@ My Service Focus:
 My Contact & Project Info:
 - Name: ${latestBooking.name}
 - Business Email: ${latestBooking.email}
+- Phone: ${latestBooking.phone}
 - Brand / Company Name: ${latestBooking.company}
 
 Additional Objectives & Scope Notes:
@@ -737,7 +772,7 @@ Looking forward to our session!`
                               className="inline-flex items-center justify-center gap-2 text-xs font-semibold text-[#C5A059] hover:text-[#AA843D] transition-colors bg-[#C5A059]/5 hover:bg-[#C5A059]/10 px-4 py-2.5 rounded border border-[#C5A059]/20 cursor-pointer decoration-none"
                             >
                               <Mail size={14} />
-                              <span>Email Details</span>
+                              <span>Backup Email Link</span>
                             </a>
                           </div>
                         </div>

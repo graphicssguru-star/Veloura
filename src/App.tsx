@@ -241,9 +241,9 @@ const Hero = ({ onBookClick }: { onBookClick: () => void }) => {
         >
           <div className="aspect-[3/4] relative rounded-t-[200px] overflow-hidden border border-brand-ink/5">
             <img 
-              src="https://picsum.photos/seed/aakar-hero/800/1100" 
-              alt="Aakar Studio Design"
-              className="w-full h-full object-cover grayscale brightness-90 contrast-110"
+              src="https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/homebanner.png" 
+              alt="Aakar Studio Design Banner"
+              className="w-full h-full object-cover"
               referrerPolicy="no-referrer"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-brand-paper/40 to-transparent"></div>
