@@ -187,8 +187,18 @@ Looking forward to our session!`
 
     const mailtoUrl = `mailto:aakarstudio.digital@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
     
-    // Automatically attempts to open native/web email client
-    window.location.href = mailtoUrl;
+    // Automatically attempts to open native/web email client safely and reliably
+    try {
+      const link = document.createElement('a');
+      link.href = mailtoUrl;
+      link.target = '_self';
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } catch (err) {
+      console.error("Failed to trigger mail client automatically:", err);
+      window.location.href = mailtoUrl;
+    }
 
     setStep(4); // Advance to elegant success state
   };
@@ -675,7 +685,12 @@ Looking forward to our session!`
                           </div>
                         </div>
 
-                        <div className="bg-brand-ink/[0.02] p-4 text-xs font-light text-brand-muted rounded border-l-2 border-brand-accent">
+                        <div className="bg-brand-accent/[0.03] p-4 text-xs font-light text-brand-muted rounded border-l-2 border-brand-accent mb-3">
+                          <span className="font-semibold text-brand-ink block mb-1">📨 Email Dispatch:</span>
+                          We have formulated an email draft with your booking specifications destined for <strong className="font-semibold text-[#C5A059]">aakarstudio.digital@gmail.com</strong>. Please check and send the draft that was triggered. If it did not open automatically, click <strong>Email Details</strong> below.
+                        </div>
+
+                        <div className="bg-brand-ink/[0.02] p-4 text-xs font-light text-brand-muted rounded border-l-2 border-brand-ink/40">
                           <span className="font-semibold text-brand-ink block mb-1">💡 Preparation Tip:</span>
                           Please prepare some current visual references, budget outlines, or mood boards to share directly in our meeting. You will receive a calendar invite from AAKAR Studio shortly.
                         </div>
