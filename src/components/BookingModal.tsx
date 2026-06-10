@@ -15,7 +15,8 @@ import {
   Trash2, 
   Video,
   Check,
-  MessageSquare
+  MessageSquare,
+  Mail
 } from 'lucide-react';
 import { whatsappLink } from '../App';
 
@@ -154,6 +155,41 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     setBookings(updatedBookings);
     localStorage.setItem('aakar_bookings', JSON.stringify(updatedBookings));
     setLatestBooking(newBooking);
+
+    // Generate and trigger prefilled mailto draft to aakarstudio.digital@gmail.com
+    const mailtoSubject = encodeURIComponent(`New Consultation Booking - ${newBooking.id} (${newBooking.name})`);
+    const mailtoBody = encodeURIComponent(
+`Hello AAKAR Studio,
+
+I have scheduled a creative consultation through your website portal.
+
+Here are my project and booking details:
+-------------------------------------------
+- Booking ID: ${newBooking.id}
+- Preferred Date: ${newBooking.date}
+- Preferred Time Slot: ${newBooking.time}
+
+My Service Focus:
+- Service Required: ${newBooking.service}
+- Estimated Budget Range: ${newBooking.budget}
+
+My Contact & Project Info:
+- Name: ${newBooking.name}
+- Business Email: ${newBooking.email}
+- Brand / Company Name: ${newBooking.company}
+
+Additional Objectives & Scope Notes:
+${newBooking.notes}
+-------------------------------------------
+
+Looking forward to our session!`
+    );
+
+    const mailtoUrl = `mailto:aakarstudio.digital@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
+    
+    // Automatically attempts to open native/web email client
+    window.location.href = mailtoUrl;
+
     setStep(4); // Advance to elegant success state
   };
 
@@ -645,16 +681,50 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
                         </div>
 
                         <div className="pt-4 border-t border-brand-ink/5 mt-4 text-center">
-                          <div className="text-[10px] uppercase font-mono tracking-wider font-bold text-brand-muted mb-2">Prefer instant messaging?</div>
-                          <a 
-                            href={whatsappLink} 
-                            target="_blank" 
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-2 text-xs font-semibold text-[#25D366] hover:text-[#128C7E] transition-colors bg-transparent border-none cursor-pointer"
-                          >
-                            <MessageSquare size={14} />
-                            <span>Chat with Aakar Studio on WhatsApp</span>
-                          </a>
+                          <div className="text-[10px] uppercase font-mono tracking-wider font-bold text-brand-muted mb-2">Prefer instant messaging or email?</div>
+                          <div className="flex flex-col sm:flex-row gap-2 justify-center">
+                            <a 
+                              href={whatsappLink} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="inline-flex items-center justify-center gap-2 text-xs font-semibold text-[#25D366] hover:text-[#128C7E] transition-colors bg-[#25D366]/5 hover:bg-[#25D366]/10 px-4 py-2.5 rounded border border-[#25D366]/20 cursor-pointer decoration-none"
+                            >
+                              <MessageSquare size={14} />
+                              <span>WhatsApp Us</span>
+                            </a>
+                            <a 
+                              href={`mailto:aakarstudio.digital@gmail.com?subject=${encodeURIComponent(`New Consultation Booking - ${latestBooking.id} (${latestBooking.name})`)}&body=${encodeURIComponent(
+`Hello AAKAR Studio,
+
+I have scheduled a creative consultation through your website portal.
+
+Here are my project and booking details:
+-------------------------------------------
+- Booking ID: ${latestBooking.id}
+- Preferred Date: ${latestBooking.date}
+- Preferred Time Slot: ${latestBooking.time}
+
+My Service Focus:
+- Service Required: ${latestBooking.service}
+- Estimated Budget Range: ${latestBooking.budget}
+
+My Contact & Project Info:
+- Name: ${latestBooking.name}
+- Business Email: ${latestBooking.email}
+- Brand / Company Name: ${latestBooking.company}
+
+Additional Objectives & Scope Notes:
+${latestBooking.notes}
+-------------------------------------------
+
+Looking forward to our session!`
+                              )}`}
+                              className="inline-flex items-center justify-center gap-2 text-xs font-semibold text-[#C5A059] hover:text-[#AA843D] transition-colors bg-[#C5A059]/5 hover:bg-[#C5A059]/10 px-4 py-2.5 rounded border border-[#C5A059]/20 cursor-pointer decoration-none"
+                            >
+                              <Mail size={14} />
+                              <span>Email Details</span>
+                            </a>
+                          </div>
                         </div>
                       </div>
                     </div>

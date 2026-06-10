@@ -1109,12 +1109,12 @@ const Contact = ({ onBookClick }: { onBookClick: () => void }) => {
             </div>
 
             <div className="mt-16 flex items-center gap-8">
-              <div className="flex items-center gap-2 group cursor-pointer">
+              <a href="mailto:aakarstudio.digital@gmail.com" className="flex items-center gap-2 group cursor-pointer text-brand-ink transition-colors">
                 <div className="p-3 border border-brand-ink/10 rounded-full group-hover:bg-brand-ink group-hover:text-brand-paper transition-all">
                   <Mail size={18} />
                 </div>
-                <span className="text-xs uppercase tracking-widest font-medium">hello@aakar.studio</span>
-              </div>
+                <span className="text-xs uppercase tracking-widest font-medium">aakarstudio.digital@gmail.com</span>
+              </a>
               <div className="h-[1px] flex-1 bg-brand-ink/10"></div>
               <span className="text-[10px] uppercase tracking-widest text-[#B5B5B5] italic">Limited Clients per Month</span>
             </div>
