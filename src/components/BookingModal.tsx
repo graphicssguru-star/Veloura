@@ -165,7 +165,7 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     setApiError(null);
 
     try {
-      const response = await fetch('/api/booking', {
+      const response = await fetch('/api/book-consultation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -173,7 +173,15 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
         body: JSON.stringify(bookingPayload),
       });
 
-      const result = await response.json();
+      let result;
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        result = await response.json();
+      } else {
+        const textStr = await response.text();
+        console.error("Non-JSON API response received:", textStr);
+        throw new Error(`The backend server returned a non-JSON response. This usually indicates the server was starting or ran into an unexpected route state: ${textStr.substring(0, 150)}...`);
+      }
 
       if (!response.ok) {
         throw new Error(result.error || "Failed to submit booking details. Please try again.");

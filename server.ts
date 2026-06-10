@@ -46,10 +46,10 @@ app.get("/api/health", (req, res) => {
   res.json({ status: "ok" });
 });
 
-// Create Consultation Booking Endpoint
-app.post("/api/booking", async (req, res) => {
+// Create Consultation Booking Endpoint (POST /api/book-consultation)
+app.post("/api/book-consultation", async (req, res) => {
   try {
-    const { id, name, email, phone, company, date, time, service, notes } = req.body;
+    const { id, name, email, phone, company, date, time, service, budget, notes } = req.body;
 
     // 1. Strict Validation
     if (!name || typeof name !== "string" || name.trim() === "") {
@@ -69,6 +69,9 @@ app.post("/api/booking", async (req, res) => {
     }
     if (!service || typeof service !== "string") {
       return res.status(400).json({ success: false, error: "Validator Error: Project Type / Service is required." });
+    }
+    if (!budget || typeof budget !== "string") {
+      return res.status(400).json({ success: false, error: "Validator Error: Estimated Budget Range is required." });
     }
     if (!notes || typeof notes !== "string") {
       return res.status(400).json({ success: false, error: "Validator Error: Requirements or context notes are required." });
@@ -101,6 +104,7 @@ app.post("/api/booking", async (req, res) => {
       phone: phone.trim(),
       company: company ? company.trim() : "N/A",
       service: service.trim(),
+      budget: budget.trim(),
       date,
       time,
       notes: notes.trim(),
@@ -110,14 +114,15 @@ app.post("/api/booking", async (req, res) => {
     bookings.unshift(newBooking);
     saveBookings(bookings);
 
-    // 4. Configure Nodemailer with graceful fallback if credentials aren't established
+    // 4. Configure Email Client (Resend or SMTP Nodemailer)
+    const resendApiKey = process.env.RESEND_API_KEY;
     const smtpHost = process.env.SMTP_HOST || "smtp.gmail.com";
     const smtpPort = parseInt(process.env.SMTP_PORT || "465");
     const smtpSecure = process.env.SMTP_SECURE === "true" || smtpPort === 465;
     const smtpUser = process.env.SMTP_USER;
     const smtpPass = process.env.SMTP_PASS;
 
-    const emailConfigured = !!(smtpUser && smtpPass);
+    const emailConfigured = !!(resendApiKey || (smtpUser && smtpPass));
     let emailStatus = "simulated";
 
     // 5. Build Email Templates
@@ -156,6 +161,57 @@ Submitted On:
 ${timestampStr}
 
 --------------------------------------------------`;
+
+    const adminHtml = `
+      <div style="font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 25px; border: 1px solid #e5e5e5; border-radius: 8px; background-color: #ffffff; color: #1a1a1a;">
+        <div style="text-align: center; border-bottom: 2px solid #C5A059; padding-bottom: 15px; margin-bottom: 25px;">
+          <h2 style="color: #1a1a1a; margin: 0; font-family: Georgia, serif; font-size: 24px;">AAKAR <span style="color: #C5A059; font-style: italic;">Studio</span>.</h2>
+          <p style="color: #777777; font-size: 11px; text-transform: uppercase; letter-spacing: 2px; margin: 5px 0 0 0;">New Consultation Request</p>
+        </div>
+        
+        <table style="width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 20px;">
+          <tr style="border-bottom: 1px solid #eaeaea;">
+            <td style="padding: 10px; color: #777777; font-weight: bold; width: 150px;">Name:</td>
+            <td style="padding: 10px; color: #1a1a1a;">${newBooking.name}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eaeaea;">
+            <td style="padding: 10px; color: #777777; font-weight: bold;">Email:</td>
+            <td style="padding: 10px; color: #1a1a1a;"><a href="mailto:${newBooking.email}" style="color: #C5A059; text-decoration: none;">${newBooking.email}</a></td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eaeaea;">
+            <td style="padding: 10px; color: #777777; font-weight: bold;">Phone:</td>
+            <td style="padding: 10px; color: #1a1a1a;">${newBooking.phone}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eaeaea;">
+            <td style="padding: 10px; color: #777777; font-weight: bold;">Company:</td>
+            <td style="padding: 10px; color: #1a1a1a;">${newBooking.company}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eaeaea;">
+            <td style="padding: 10px; color: #777777; font-weight: bold;">Project Type:</td>
+            <td style="padding: 10px; color: #1a1a1a;"><span style="background-color: #f7f7f7; padding: 4px 8px; border-radius: 4px; font-weight: 500;">${newBooking.service}</span></td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eaeaea;">
+            <td style="padding: 10px; color: #777777; font-weight: bold;">Budget Range:</td>
+            <td style="padding: 10px; color: #1a1a1a;">${newBooking.budget}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eaeaea;">
+            <td style="padding: 10px; color: #777777; font-weight: bold;">Selected Date:</td>
+            <td style="padding: 10px; color: #1a1a1a; font-weight: bold;">${newBooking.date}</td>
+          </tr>
+          <tr style="border-bottom: 1px solid #eaeaea;">
+            <td style="padding: 10px; color: #777777; font-weight: bold;">Selected Time:</td>
+            <td style="padding: 10px; color: #1a1a1a; font-weight: bold;">${newBooking.time}</td>
+          </tr>
+        </table>
+        
+        <div style="background-color: #fafafa; border: 1px solid #eaeaea; padding: 15px; border-radius: 4px; margin-bottom: 20px;">
+          <h4 style="margin-top: 0; color: #333333; font-size: 12px; text-transform: uppercase; letter-spacing: 1px; border-bottom: 1px solid #eaeaea; padding-bottom: 5px;">Requirements / Notes</h4>
+          <p style="font-size: 14px; line-height: 1.6; color: #333333; margin: 5px 0 0 0; white-space: pre-wrap;">${newBooking.notes}</p>
+        </div>
+        
+        <p style="font-size: 11px; color: #999999; text-align: center; margin-top: 30px;">Submitted On: ${timestampStr}</p>
+      </div>
+    `;
 
     const clientSubject = `Consultation Request Received - AAKAR Studio`;
     const clientBodyText = `Hello ${newBooking.name},
@@ -215,7 +271,54 @@ Where Creativity Takes Shape`;
     `;
 
     // 6. Action Mail Sending
-    if (emailConfigured) {
+    if (resendApiKey) {
+      try {
+        console.log("Attempting to send email via Resend API...");
+        const resendResponse = await fetch("https://api.resend.com/emails", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${resendApiKey}`
+          },
+          body: JSON.stringify({
+            from: "AAKAR Studio <onboarding@resend.dev>",
+            to: "aakarstudio.digital@gmail.com",
+            subject: adminSubject,
+            text: adminBodyText,
+            html: adminHtml
+          })
+        });
+
+        if (resendResponse.ok) {
+          console.log("Successfully sent notification to admin via Resend.");
+          emailStatus = "sent";
+
+          // Send confirmation back to client via Resend
+          await fetch("https://api.resend.com/emails", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${resendApiKey}`
+            },
+            body: JSON.stringify({
+              from: "AAKAR Studio <onboarding@resend.dev>",
+              to: newBooking.email,
+              subject: clientSubject,
+              text: clientBodyText,
+              html: clientHtml
+            })
+          });
+        } else {
+          const resendErrorText = await resendResponse.text();
+          console.error("Resend API failed:", resendErrorText);
+        }
+      } catch (resendErr) {
+        console.error("Resend delivery failed, seeking SMTP fallback:", resendErr);
+      }
+    }
+
+    // Fallback to SMTP Nodemailer if required
+    if (emailStatus !== "sent" && smtpUser && smtpPass) {
       try {
         console.log(`Setting up SMTP connection to ${smtpHost}:${smtpPort}...`);
         const transporter = nodemailer.createTransport({
@@ -234,6 +337,7 @@ Where Creativity Takes Shape`;
           to: "aakarstudio.digital@gmail.com",
           subject: adminSubject,
           text: adminBodyText,
+          html: adminHtml
         });
 
         // Send confirmation back to client
@@ -251,11 +355,11 @@ Where Creativity Takes Shape`;
         console.error("Nodemailer Client Dispatch Failed, falling back to simulated status. Reason:", smtpErr);
         emailStatus = "failed_smtp";
       }
-    } else {
-      console.warn("SMTP email variables (SMTP_USER & SMTP_PASS) not configured. Storing locally and completing simulated flow.");
+    } else if (emailStatus !== "sent") {
+      console.warn("SMTP / Resend credentials not established. Completing simulated dispatch.");
     }
 
-    // 7. Success Reply back to client
+    // 7. Success Reply back to client matching criteria format exactly
     return res.status(200).json({ 
       success: true, 
       emailStatus,
@@ -265,8 +369,14 @@ Where Creativity Takes Shape`;
 
   } catch (error) {
     console.error("Booking handler error:", error);
-    return res.status(500).json({ success: false, error: "An internal server error occurred while lodging booking. Please try again." });
+    // Requirement 8: return standard strict error message
+    return res.status(500).json({ success: false, error: "Failed to process booking request." });
   }
+});
+
+// Redirect /api/booking POST fallback for absolute backward compatibility
+app.post("/api/booking", async (req, res) => {
+  res.redirect(307, "/api/book-consultation");
 });
 
 // Retrieves existing bookings securely (API restricted or basic access for the dashboard component UI)
@@ -282,6 +392,26 @@ app.delete("/api/bookings/:id", (req, res) => {
   const filtered = current.filter(b => b.id !== id);
   saveBookings(filtered);
   res.json({ success: true });
+});
+
+// JSON fallback handler for non-existent API routes
+app.all("/api/*", (req, res) => {
+  res.status(404).json({
+    success: false,
+    error: `Target API Endpoint "${req.method} ${req.baseUrl || req.originalUrl}" does not exist.`
+  });
+});
+
+// Global Express error catch-all handler inside the API context
+app.use((err: any, req: any, res: any, next: any) => {
+  if (req.originalUrl && req.originalUrl.startsWith("/api/")) {
+    console.error("Logged API Error Boundary:", err);
+    return res.status(err.status || 500).json({
+      success: false,
+      error: err.message || "A syntax or systemic error occurred inside the booking API service."
+    });
+  }
+  next(err);
 });
 
 // ==========================================

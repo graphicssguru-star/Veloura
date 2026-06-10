@@ -967,7 +967,7 @@ const Portfolio = ({ onViewAllClick }: { onViewAllClick: () => void }) => {
           problem="Complex healthcare and wellness services needed a more engaging digital presence and a seamless customer journey."
           solution="Designed user-centric digital experiences, campaign landing pages, emailers, social media creatives, and visual communication systems."
           result="Stronger audience engagement, improved brand consistency, and a more connected digital ecosystem."
-          img="https://picsum.photos/seed/healthcarewellness/1200/800"
+          img="https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/wellnessdigital.png"
           delay={0.1}
         />
         <PortfolioItem 
@@ -975,7 +975,7 @@ const Portfolio = ({ onViewAllClick }: { onViewAllClick: () => void }) => {
           problem="Users faced challenges navigating complex workflows and completing tasks efficiently."
           solution="Created intuitive user journeys, wireframes, design systems, and modern mobile interfaces focused on usability."
           result="Improved user experience, streamlined interactions, and enhanced product adoption."
-          img="https://picsum.photos/seed/enterprisesystem/1200/800"
+          img="https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/Mobileapp.png"
           delay={0.2}
         />
         <PortfolioItem 
@@ -983,7 +983,7 @@ const Portfolio = ({ onViewAllClick }: { onViewAllClick: () => void }) => {
           problem="Limited digital visibility and inconsistent brand communication across customer touchpoints."
           solution="Developed branding assets, menu communication, social media campaigns, promotional creatives, and customer engagement strategies."
           result="Enhanced brand perception, stronger customer engagement, and increased local visibility."
-          img="https://picsum.photos/seed/restaurantbrand/1200/800"
+          img="https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/Restaurant.png"
           delay={0.3}
         />
       </div>

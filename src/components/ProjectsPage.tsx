@@ -66,7 +66,7 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
         "Social Media Design Systems",
         "Visual Communication Systems"
       ],
-      img: "https://picsum.photos/seed/healthcarewellness/1200/800",
+      img: "https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/wellnessdigital.png",
       category: "Healthcare & Wellness",
       num: "01"
     },
@@ -85,7 +85,7 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
         "Mobile App UI/UX",
         "Usability & Interaction Testing"
       ],
-      img: "https://picsum.photos/seed/enterprisesystem/1200/800",
+      img: "https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/Mobileapp.png",
       category: "UI/UX & Product",
       num: "02"
     },
@@ -104,7 +104,7 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
         "Promotional Creatives",
         "Customer Experience Direction"
       ],
-      img: "https://picsum.photos/seed/restaurantbrand/1200/800",
+      img: "https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/Restaurant.png",
       category: "Restaurant Experience",
       num: "03"
     },
