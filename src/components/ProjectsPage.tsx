@@ -109,6 +109,25 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
       num: "03"
     },
     {
+      id: "project-packaging",
+      title: "Packaging Design & Brand Presentation",
+      subtitle: "Strategic Packaging & Labelling Systems",
+      desc: "Developed strategic packaging concepts, label designs, product branding systems, and visual communication that align with brand identity while enhancing shelf appeal and customer engagement.",
+      problem: "Products often struggle to stand out in competitive markets due to inconsistent branding, unclear messaging, and packaging that fails to capture customer attention.",
+      solution: "Developed strategic packaging concepts, label designs, product branding systems, and visual communication that align with brand identity while enhancing shelf appeal and customer engagement.",
+      result: "Created memorable product experiences, strengthened brand recognition, and improved visual impact across retail and digital channels.",
+      services: [
+        "Packaging Concept Design",
+        "Label & Graphics Design",
+        "Product Branding Systems",
+        "Visual Communication Layouts",
+        "Shelf Appeal Optimization"
+      ],
+      img: "https://picsum.photos/seed/packagingbrand/1200/800",
+      category: "Packaging & Brand Design",
+      num: "04"
+    },
+    {
       id: "project-corporate",
       title: "Corporate Branding & Marketing Communication",
       subtitle: "Integrated Collateral & Brand Systems",
@@ -125,7 +144,7 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
       ],
       img: "https://picsum.photos/seed/corporatebrand/1200/800",
       category: "Campaigns & Events",
-      num: "04"
+      num: "05"
     },
     {
       id: "project-website",
@@ -144,7 +163,7 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
       ],
       img: "https://picsum.photos/seed/websiteredesign/1200/800",
       category: "Web Design & Dev",
-      num: "05"
+      num: "06"
     }
   ];
 
