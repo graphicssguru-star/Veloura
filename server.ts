@@ -12,6 +12,24 @@ const app = express();
 const PORT = 3000;
 const DB_FILE = path.join(process.cwd(), "bookings.json");
 
+// 1. Request Logging Middleware (Prints details of every incoming request to console log)
+app.use((req, res, next) => {
+  console.log(`[Backend-Request Log] Time: ${new Date().toISOString()} | Method: ${req.method} | URL: ${req.originalUrl || req.url} | Content-Type: ${req.headers['content-type']}`);
+  next();
+});
+
+// 2. CORS / Preflight options middleware (Ensures that cross-domain or preflight requests do not return 404 or page HTML)
+app.use((req, res, next) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, Accept");
+  if (req.method === "OPTIONS") {
+    console.log(`[CORS-Preflight] Handled OPTIONS preflight request for: ${req.originalUrl || req.url}`);
+    return res.status(200).end();
+  }
+  next();
+});
+
 // Middleware to parse JSON payloads
 app.use(express.json());
 
@@ -416,11 +434,14 @@ app.all("/api/*", (req, res) => {
 
 // Global Express error catch-all handler inside the API context
 app.use((err: any, req: any, res: any, next: any) => {
-  if (req.originalUrl && req.originalUrl.startsWith("/api/")) {
+  const isApi = (req.originalUrl && req.originalUrl.includes("/api")) || 
+                (req.path && req.path.includes("/api")) || 
+                (req.url && req.url.includes("/api"));
+  if (isApi) {
     console.error("Logged API Error Boundary:", err);
     return res.status(err.status || 500).json({
       success: false,
-      error: err.message || "A syntax or systemic error occurred inside the booking API service."
+      error: "Failed to process booking"
     });
   }
   next(err);
