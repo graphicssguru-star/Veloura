@@ -48,33 +48,44 @@ app.get("/api/health", (req, res) => {
 
 // Create Consultation Booking Endpoint (POST /api/book-consultation)
 app.post("/api/book-consultation", async (req, res) => {
+  console.log(`[Backend-Server] Incoming Request - POST /api/book-consultation at ${new Date().toISOString()}`);
+  console.log("[Backend-Server] Payload body:", JSON.stringify(req.body, null, 2));
+
   try {
     const { id, name, email, phone, company, date, time, service, budget, notes } = req.body;
 
     // 1. Strict Validation
     if (!name || typeof name !== "string" || name.trim() === "") {
-      return res.status(400).json({ success: false, error: "Validator Error: Full Name is required." });
+      console.error("[Backend-Server] Validation failed - Name is missing or invalid");
+      return res.status(400).json({ success: false, error: "Failed to process booking" });
     }
     if (!email || typeof email !== "string" || !email.includes("@")) {
-      return res.status(400).json({ success: false, error: "Validator Error: A valid Business Email is required." });
+      console.error("[Backend-Server] Validation failed - Email is missing or invalid");
+      return res.status(400).json({ success: false, error: "Failed to process booking" });
     }
     if (!phone || typeof phone !== "string" || phone.trim() === "") {
-      return res.status(400).json({ success: false, error: "Validator Error: Phone Number is required to coordinate details." });
+      console.error("[Backend-Server] Validation failed - Phone is missing or invalid");
+      return res.status(400).json({ success: false, error: "Failed to process booking" });
     }
     if (!date || typeof date !== "string") {
-      return res.status(400).json({ success: false, error: "Validator Error: Selected Date is required." });
+      console.error("[Backend-Server] Validation failed - Date is missing or invalid");
+      return res.status(400).json({ success: false, error: "Failed to process booking" });
     }
     if (!time || typeof time !== "string") {
-      return res.status(400).json({ success: false, error: "Validator Error: Selected Time slot is required." });
+      console.error("[Backend-Server] Validation failed - Time is missing or invalid");
+      return res.status(400).json({ success: false, error: "Failed to process booking" });
     }
     if (!service || typeof service !== "string") {
-      return res.status(400).json({ success: false, error: "Validator Error: Project Type / Service is required." });
+      console.error("[Backend-Server] Validation failed - Service is missing or invalid");
+      return res.status(400).json({ success: false, error: "Failed to process booking" });
     }
     if (!budget || typeof budget !== "string") {
-      return res.status(400).json({ success: false, error: "Validator Error: Estimated Budget Range is required." });
+      console.error("[Backend-Server] Validation failed - Budget is missing or invalid");
+      return res.status(400).json({ success: false, error: "Failed to process booking" });
     }
     if (!notes || typeof notes !== "string") {
-      return res.status(400).json({ success: false, error: "Validator Error: Requirements or context notes are required." });
+      console.error("[Backend-Server] Validation failed - Notes is missing or invalid");
+      return res.status(400).json({ success: false, error: "Failed to process booking" });
     }
 
     // Load existing bookings
@@ -90,9 +101,10 @@ app.post("/api/book-consultation", async (req, res) => {
     );
 
     if (isDuplicate) {
+      console.warn(`[Backend-Server] Duplicate booking attempt registered for ${normalizedEmail} on ${date} at ${time}`);
       return res.status(409).json({ 
         success: false, 
-        error: "Scheduling Conflict: A booking with this email for the selected timeslot already exists. Please choose another slot." 
+        error: "Failed to process booking" 
       });
     }
 
@@ -362,15 +374,15 @@ Where Creativity Takes Shape`;
     // 7. Success Reply back to client matching criteria format exactly
     return res.status(200).json({ 
       success: true, 
+      message: "Booking submitted successfully",
       emailStatus,
-      booking: newBooking,
-      message: "Your consultation booking request has been securely registered!" 
+      booking: newBooking
     });
 
   } catch (error) {
     console.error("Booking handler error:", error);
     // Requirement 8: return standard strict error message
-    return res.status(500).json({ success: false, error: "Failed to process booking request." });
+    return res.status(500).json({ success: false, error: "Failed to process booking" });
   }
 });
 

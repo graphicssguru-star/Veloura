@@ -66,7 +66,7 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
         "Social Media Design Systems",
         "Visual Communication Systems"
       ],
-      img: "https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/wellnessdigital.png",
+      img: "https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/ChatGPT-Image-Jun-11%2C-2026%2C-02_55_03-PM.png",
       category: "Healthcare & Wellness",
       num: "01"
     },
@@ -85,7 +85,7 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
         "Mobile App UI/UX",
         "Usability & Interaction Testing"
       ],
-      img: "https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/Mobileapp.png",
+      img: "https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/ChatGPT-Image-Jun-11%2C-2026%2C-03_18_17-PM.png",
       category: "UI/UX & Product",
       num: "02"
     },
@@ -123,7 +123,7 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
         "Visual Communication Layouts",
         "Shelf Appeal Optimization"
       ],
-      img: "https://picsum.photos/seed/packagingbrand/1200/800",
+      img: "https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/ChatGPT-Image-Jun-11%2C-2026%2C-04_54_00-PM.png",
       category: "Packaging & Brand Design",
       num: "04"
     },
@@ -142,7 +142,7 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
         "Campaign Marketing Assets",
         "Corporate Brand Collateral"
       ],
-      img: "https://picsum.photos/seed/corporatebrand/1200/800",
+      img: "https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/ChatGPT-Image-Jun-11%2C-2026%2C-03_35_48-PM.png",
       category: "Campaigns & Events",
       num: "05"
     },
@@ -161,9 +161,28 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
         "Interactive Prototyping",
         "Content Presentation Systems"
       ],
-      img: "https://picsum.photos/seed/websiteredesign/1200/800",
+      img: "https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/ChatGPT-Image-Jun-11%2C-2026%2C-04_01_27-PM.png",
       category: "Web Design & Dev",
       num: "06"
+    },
+    {
+      id: "project-social-media",
+      title: "Social Media Experience & Brand Communication",
+      subtitle: "Social & Content Ecosystems",
+      desc: "Created cohesive social media ecosystems through content strategy, campaign design, visual storytelling, motion creatives, and audience-focused communication.",
+      problem: "Brands often face challenges in maintaining a consistent identity and meaningful engagement in an increasingly crowded digital landscape.",
+      solution: "Created cohesive social media ecosystems through content strategy, campaign design, visual storytelling, motion creatives, and audience-focused communication.",
+      result: "Strengthened brand perception, increased engagement, and established a recognizable and consistent presence across digital platforms.",
+      services: [
+        "Content Strategy",
+        "Campaign Design",
+        "Visual Storytelling",
+        "Motion Creatives",
+        "Audience Engagement"
+      ],
+      img: "https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/ChatGPT-Image-Jun-11%2C-2026%2C-04_08_37-PM.png",
+      category: "Social Media & Content",
+      num: "07"
     }
   ];
 

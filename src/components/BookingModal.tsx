@@ -164,14 +164,19 @@ export default function BookingModal({ isOpen, onClose }: BookingModalProps) {
     setIsLoading(true);
     setApiError(null);
 
+    const requestUrl = '/api/book-consultation';
+    console.log(`[BookingModal] Initiating Fetch request... URL: ${requestUrl}, Method: POST`, bookingPayload);
+
     try {
-      const response = await fetch('/api/book-consultation', {
+      const response = await fetch(requestUrl, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(bookingPayload),
       });
+
+      console.log(`[BookingModal] Fetch response received. Status: ${response.status} (${response.statusText})`);
 
       let result;
       const contentType = response.headers.get("content-type");

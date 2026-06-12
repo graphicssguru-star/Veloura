@@ -979,11 +979,11 @@ const Portfolio = ({ onViewAllClick }: { onViewAllClick: () => void }) => {
           delay={0.2}
         />
         <PortfolioItem 
-          title="Restaurant Brand Transformation"
-          problem="Limited digital visibility and inconsistent brand communication across customer touchpoints."
-          solution="Developed branding assets, menu communication, social media campaigns, promotional creatives, and customer engagement strategies."
-          result="Enhanced brand perception, stronger customer engagement, and increased local visibility."
-          img="https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/Restaurant.png"
+          title="Social Media Experience & Brand Communication"
+          problem="Brands often face challenges in maintaining a consistent identity and meaningful engagement in an increasingly crowded digital landscape."
+          solution="Created cohesive social media ecosystems through content strategy, campaign design, visual storytelling, motion creatives, and audience-focused communication."
+          result="Strengthened brand perception, increased engagement, and established a recognizable and consistent presence across digital platforms."
+          img="https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/ChatGPT-Image-Jun-11%2C-2026%2C-04_08_37-PM.png"
           delay={0.3}
         />
       </div>
