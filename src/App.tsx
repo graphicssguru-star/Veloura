@@ -466,10 +466,10 @@ const Experience = () => {
             className="space-y-6 text-base text-brand-muted/90 font-light leading-relaxed"
           >
             <p>
-              With over 25 years of professional experience, I have worked across branding, packaging, graphic design, UI/UX, digital marketing, and creative strategy.
+              With over 25 years of professional experience, we have worked across branding, packaging, graphic design, UI/UX, digital marketing, and creative strategy.
             </p>
             <p>
-              My journey spans traditional print media, corporate branding, retail communication, packaging design, social media marketing, websites, and digital product experiences.
+              Our journey spans traditional print media, corporate branding, retail communication, packaging design, social media marketing, websites, and digital product experiences.
             </p>
             <p>
               This multidisciplinary background allows me to understand both business goals and user needs, creating solutions that are visually compelling and commercially effective.
@@ -632,7 +632,7 @@ const WhyChooseMe = () => {
               <div className="absolute top-0 right-0 w-32 h-32 bg-brand-accent/5 rounded-full blur-2xl"></div>
               <h3 className="text-xs uppercase tracking-[0.3em] font-medium text-brand-accent">WHAT MAKES AAKAR DIFFERENT</h3>
               <p className="text-xl font-serif italic text-brand-paper/90 leading-relaxed">
-                "Most designers focus on visuals. I focus on the complete experience."
+                "Most designers focus on visuals. We focus on the complete experience."
               </p>
               <p className="text-sm font-light text-brand-paper/60 leading-relaxed">
                 From brand identity and packaging to websites, mobile apps, social media, and marketing communication, every solution is designed to create meaningful connections between brands and people.
@@ -674,7 +674,7 @@ const WhyChooseMe = () => {
               className="p-8 md:p-12 border border-brand-accent/15 bg-brand-accent/[0.03] space-y-4 rounded-xl mt-12"
             >
               <p className="text-lg md:text-xl font-light text-brand-ink leading-relaxed font-serif italic">
-                "I don't just create designs. I help businesses communicate better, look better, and grow through thoughtful design and digital experiences."
+                "We don't just create designs. We help businesses communicate better, look better, and grow through thoughtful design and digital experiences."
               </p>
             </motion.div>
           </motion.div>
@@ -1136,9 +1136,15 @@ const Footer = () => {
         </div>
         
         <div className="flex items-center gap-8">
-          <a href="#" className="text-[10px] uppercase tracking-[0.3em] font-medium text-brand-muted hover:text-brand-accent transition-colors">Instagram</a>
-          <a href="#" className="text-[10px] uppercase tracking-[0.3em] font-medium text-brand-muted hover:text-brand-accent transition-colors">LinkedIn</a>
-          <a href="#" className="text-[10px] uppercase tracking-[0.3em] font-medium text-brand-muted hover:text-brand-accent transition-colors">Pinterest</a>
+          <a 
+            href="https://www.linkedin.com/in/aakar-studio-digital/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className="flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] font-medium text-brand-muted hover:text-brand-accent transition-colors"
+          >
+            <Linkedin size={14} className="text-brand-accent" />
+            <span>LinkedIn</span>
+          </a>
         </div>
 
         <div className="text-[10px] uppercase tracking-widest text-brand-muted">
