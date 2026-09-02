@@ -36,9 +36,10 @@ interface ProjectsPageProps {
   onBackToHome: () => void;
   onContactClick: () => void;
   onBookClick: () => void;
+  onCaseStudyClick?: (projectId?: string) => void;
 }
 
-export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick }: ProjectsPageProps) {
+export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick, onCaseStudyClick }: ProjectsPageProps) {
   const containerRef = React.useRef(null);
   
   // Outer scroll tracking for parallax elements
@@ -56,9 +57,9 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
       title: "Healthcare & Wellness Digital Experience",
       subtitle: "Digital Design & Customer Journeys",
       desc: "Designed user-centric digital experiences, campaign landing pages, emailers, social media creatives, and visual communication systems.",
-      problem: "Complex healthcare and wellness services needed a more engaging digital presence and a seamless customer journey.",
-      solution: "Designed user-centric digital experiences, campaign landing pages, emailers, social media creatives, and visual communication systems.",
-      result: "Stronger audience engagement, improved brand consistency, and a more connected digital ecosystem.",
+      problem: "Healthcare and wellness services required a seamless digital experience that simplified customer journeys while strengthening engagement.",
+      solution: "Designed user-centric websites, campaign landing pages, email marketing systems, social media experiences, and digital communication assets that connected users across multiple touchpoints.",
+      result: "Improved customer engagement, stronger brand consistency, and a more unified digital ecosystem that supported long-term business growth.",
       services: [
         "UI/UX Experience Design",
         "Campaign Landing Pages",
@@ -66,7 +67,7 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
         "Social Media Design Systems",
         "Visual Communication Systems"
       ],
-      img: "https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/ChatGPT-Image-Jun-11%2C-2026%2C-02_55_03-PM.png",
+      img: "https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/wellnessdigital.png",
       category: "Healthcare & Wellness",
       num: "01"
     },
@@ -75,9 +76,9 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
       title: "Enterprise Mobile Application Design",
       subtitle: "UI/UX & Native Mobile Interfaces",
       desc: "Created intuitive user journeys, wireframes, design systems, and modern mobile interfaces focused on usability.",
-      problem: "Users faced challenges navigating complex workflows and completing tasks efficiently.",
-      solution: "Created intuitive user journeys, wireframes, design systems, and modern mobile interfaces focused on usability.",
-      result: "Improved user experience, streamlined interactions, and enhanced product adoption.",
+      problem: "Complex business workflows created friction, reducing efficiency and slowing task completion.",
+      solution: "Designed intuitive user journeys, scalable design systems, wireframes, interactive prototypes, and modern mobile interfaces focused on usability and productivity.",
+      result: "Simplified workflows, improved user adoption, and a significantly better product experience.",
       services: [
         "User Journey Mapping",
         "Wireframing & Prototyping",
@@ -85,7 +86,7 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
         "Mobile App UI/UX",
         "Usability & Interaction Testing"
       ],
-      img: "https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/ChatGPT-Image-Jun-11%2C-2026%2C-03_18_17-PM.png",
+      img: "https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/Mobileapp.png",
       category: "UI/UX & Product",
       num: "02"
     },
@@ -110,12 +111,12 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
     },
     {
       id: "project-packaging",
-      title: "Packaging Design & Brand Presentation",
+      title: "Brand Identity & Packaging Experience",
       subtitle: "Strategic Packaging & Labelling Systems",
       desc: "Developed strategic packaging concepts, label designs, product branding systems, and visual communication that align with brand identity while enhancing shelf appeal and customer engagement.",
-      problem: "Products often struggle to stand out in competitive markets due to inconsistent branding, unclear messaging, and packaging that fails to capture customer attention.",
-      solution: "Developed strategic packaging concepts, label designs, product branding systems, and visual communication that align with brand identity while enhancing shelf appeal and customer engagement.",
-      result: "Created memorable product experiences, strengthened brand recognition, and improved visual impact across retail and digital channels.",
+      problem: "Businesses needed stronger visual identities and premium product presentation to compete in crowded markets.",
+      solution: "Designed complete branding systems, packaging, retail communication, product presentation, and marketing collateral.",
+      result: "Elevated brand perception, improved product visibility, and stronger customer recall.",
       services: [
         "Packaging Concept Design",
         "Label & Graphics Design",
@@ -148,12 +149,12 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
     },
     {
       id: "project-website",
-      title: "Website Experience Redesign",
+      title: "SaaS Dashboard & Product Experience",
       subtitle: "Information Architecture & Responsive Web",
       desc: "Redesigned information architecture, user experience flows, responsive interfaces, and content presentation.",
-      problem: "An outdated website experience limited user engagement and weakened digital credibility.",
-      solution: "Redesigned information architecture, user experience flows, responsive interfaces, and content presentation.",
-      result: "A modern digital experience that improved usability, strengthened brand perception, and enhanced customer engagement.",
+      problem: "Growing businesses required modern digital platforms capable of managing complex data while remaining intuitive for users.",
+      solution: "Designed dashboard experiences, admin interfaces, analytics views, component libraries, and scalable design systems optimized for enterprise products.",
+      result: "Cleaner workflows, improved usability, and digital products built for long-term scalability.",
       services: [
         "Information Architecture",
         "User Experience Flows",
@@ -170,9 +171,9 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
       title: "Social Media Experience & Brand Communication",
       subtitle: "Social & Content Ecosystems",
       desc: "Created cohesive social media ecosystems through content strategy, campaign design, visual storytelling, motion creatives, and audience-focused communication.",
-      problem: "Brands often face challenges in maintaining a consistent identity and meaningful engagement in an increasingly crowded digital landscape.",
-      solution: "Created cohesive social media ecosystems through content strategy, campaign design, visual storytelling, motion creatives, and audience-focused communication.",
-      result: "Strengthened brand perception, increased engagement, and established a recognizable and consistent presence across digital platforms.",
+      problem: "Brands struggled to maintain consistency and meaningful engagement across rapidly evolving digital channels.",
+      solution: "Created cohesive content systems, campaign creatives, motion graphics, launch assets, and audience-focused communication strategies.",
+      result: "Improved brand recognition, stronger engagement, and more consistent digital communication.",
       services: [
         "Content Strategy",
         "Campaign Design",
@@ -222,7 +223,7 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
   const highlights = [
     { value: "25+", label: "Years of Experience" },
     { value: "200+", label: "Projects Delivered" },
-    { value: "50+", label: "Brands Served" },
+    { value: "50+", label: "Businesses Supported" },
     { value: "10+", label: "Industries Worked Across" }
   ];
 
@@ -367,20 +368,32 @@ export default function ProjectsPage({ onBackToHome, onContactClick, onBookClick
                     </div>
                   </div>
 
-                  <div className="pt-4 border-t border-brand-ink/5">
-                    <span className="text-[10px] uppercase tracking-widest text-brand-accent font-semibold block mb-3 font-mono">
-                      Services Provided
-                    </span>
-                    <div className="flex flex-wrap gap-2">
-                      {project.services.map((srv) => (
-                        <span 
-                          key={srv}
-                          className="px-3 py-1 bg-white border border-brand-ink/5 text-[10px] uppercase tracking-wider text-brand-muted rounded-full"
-                        >
-                          {srv}
-                        </span>
-                      ))}
+                  <div className="pt-4 border-t border-brand-ink/5 flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                      <span className="text-[10px] uppercase tracking-widest text-brand-accent font-semibold block mb-2 font-mono">
+                        Services Provided
+                      </span>
+                      <div className="flex flex-wrap gap-2">
+                        {project.services.map((srv) => (
+                          <span 
+                            key={srv}
+                            className="px-3 py-1 bg-white border border-brand-ink/5 text-[10px] uppercase tracking-wider text-brand-muted rounded-full"
+                          >
+                            {srv}
+                          </span>
+                        ))}
+                      </div>
                     </div>
+
+                    {onCaseStudyClick && (
+                      <button
+                        onClick={() => onCaseStudyClick(project.id.replace('project-', ''))}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#2563EB] text-white text-xs uppercase tracking-widest font-medium rounded-[20px] hover:bg-blue-700 transition-all shadow-sm hover:shadow-md cursor-pointer mt-2"
+                      >
+                        <span>View Case Study</span>
+                        <ArrowUpRight size={14} />
+                      </button>
+                    )}
                   </div>
                 </div>
               </motion.div>

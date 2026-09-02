@@ -6,6 +6,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence, useScroll, useTransform, useInView } from 'motion/react';
 import ProjectsPage from './components/ProjectsPage';
+import CaseStudyPage from './components/CaseStudyPage';
 import BookingModal from './components/BookingModal';
 import { 
   ArrowRight, 
@@ -41,7 +42,14 @@ import {
   Rocket,
   Cpu,
   Factory,
-  Box
+  Box,
+  CheckCircle2,
+  Clock,
+  Workflow,
+  FileText,
+  Sliders,
+  ShieldCheck,
+  Check
 } from 'lucide-react';
 
 export const whatsappLink = "https://wa.me/917977765228?text=" + encodeURIComponent(
@@ -62,7 +70,7 @@ Looking forward to connecting.`
 
 // --- Components ---
 
-const Navbar = ({ onBookClick }: { onBookClick: () => void }) => {
+const Navbar = ({ onBookClick, onCaseStudyClick }: { onBookClick: () => void; onCaseStudyClick: () => void }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [visible, setVisible] = useState(true);
@@ -126,7 +134,7 @@ const Navbar = ({ onBookClick }: { onBookClick: () => void }) => {
         </a>
  
         {/* Desktop Links */}
-        <div className="hidden md:flex items-center gap-10">
+        <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <a 
               key={link.name} 
@@ -139,7 +147,7 @@ const Navbar = ({ onBookClick }: { onBookClick: () => void }) => {
           <button 
             id="nav-book-a-call"
             onClick={onBookClick}
-            className="px-6 py-2 border border-brand-ink text-xs uppercase tracking-widest hover:bg-brand-ink hover:text-brand-paper transition-all cursor-pointer bg-transparent rounded-full font-semibold"
+            className="px-5 py-1.5 border border-brand-ink text-xs uppercase tracking-widest hover:bg-brand-ink hover:text-brand-paper transition-all cursor-pointer bg-transparent rounded-full font-semibold"
           >
             Book a Call
           </button>
@@ -207,16 +215,16 @@ const Hero = ({ onBookClick }: { onBookClick: () => void }) => {
         >
           <div className="mb-6 flex items-center gap-3">
             <span className="w-8 h-[1px] bg-brand-accent"></span>
-            <span className="text-xs uppercase tracking-[0.3em] font-medium text-brand-muted">Digital Design Studio</span>
+            <span className="text-xs uppercase tracking-[0.3em] font-medium text-brand-muted">DIGITAL PRODUCT DESIGN STUDIO</span>
           </div>
-          <h1 className="text-6xl md:text-8xl lg:text-9xl mb-8 leading-[0.9] -ml-1">
-            Elegant <br />
-            <span className="italic text-brand-accent">Design</span> That <br />
-            Attracts<span className="font-sans text-xl md:text-2xl align-top ml-2 text-brand-muted opacity-50 underline decoration-1 underline-offset-8">Better</span> <br />
-            Customers
+          <h1 className="text-5xl md:text-7xl lg:text-8xl mb-8 leading-[1.05] -ml-1 font-serif tracking-tight font-light text-brand-ink">
+            Designing <br />
+            <span className="italic text-brand-accent font-normal">Digital Products</span> <br />
+            That People Love <br />
+            to Use<span className="text-brand-accent">.</span>
           </h1>
-          <p className="max-w-md text-lg text-brand-muted mb-10 font-light leading-relaxed">
-            Branding, UI/UX & Digital Experiences for businesses looking to elevate their brand and digital presence.
+          <p className="max-w-xl text-base text-brand-muted mb-10 font-light leading-relaxed">
+            AAKAR Studio helps startups, SaaS companies, enterprises, and ambitious businesses transform ideas into intuitive digital products through product strategy, UX research, UI/UX design, design systems, branding, and growth-focused digital experiences.
           </p>
           <div className="flex flex-wrap gap-4">
             <a href="#work" className="group px-8 py-4 bg-brand-ink text-brand-paper flex items-center gap-3 hover:translate-y-[-2px] transition-transform">
@@ -304,26 +312,29 @@ const About = () => {
               About <span className="italic text-brand-accent">Aakar</span>
             </h2>
             <h3 className="text-2xl md:text-3xl font-light leading-relaxed text-brand-accent max-w-xl font-serif italic mb-8">
-              A New Studio Built on Decades of Creative Expertise
+              Built on 25+ Years of Design Excellence. Focused on the Future of Digital Products.
             </h3>
             <p className="text-base font-light text-brand-paper/85 leading-relaxed max-w-xl mb-6">
-              AAKAR Studio is a creative design studio specializing in branding, UI/UX design, visual communication, and digital experiences.
+              AAKAR Studio is a Digital Product Design Studio built on more than 25 years of professional design experience.
             </p>
             <p className="text-base font-light text-brand-paper/85 leading-relaxed max-w-xl mb-6">
-              Built on over <strong className="font-semibold text-brand-accent">25 years of industry experience</strong>, the studio brings together strategic thinking, creative craftsmanship, and user-centered design to help businesses create meaningful connections with their audiences.
+              While the studio represents a new beginning, the expertise behind it has been shaped by decades of designing enterprise software, SaaS platforms, healthcare applications, mobile products, websites, branding systems, packaging, and digital marketing experiences.
             </p>
-            <p className="text-base font-light text-brand-paper/70 leading-relaxed max-w-xl mb-6">
-              While the studio itself represents a fresh beginning, its foundation is shaped by decades of experience delivering impactful design solutions across multiple industries.
+            <p className="text-base font-light text-brand-paper/85 leading-relaxed max-w-xl mb-6">
+              We believe successful products are created where business strategy, user experience, and beautiful design come together. Every project is approached with curiosity, precision, and a commitment to solving real business challenges while delivering exceptional user experiences.
+            </p>
+            <p className="text-base font-light text-brand-paper/85 leading-relaxed max-w-xl mb-6">
+              From startups building their first MVP to established enterprises modernizing their products, we help organizations create digital experiences that are intuitive, scalable, and designed for growth.
             </p>
             <p className="text-lg font-serif italic text-brand-accent leading-relaxed max-w-xl mb-8">
-              "We believe great design is not only seen—it is experienced."
+              "Great products aren't just beautifully designed—they solve meaningful problems and create lasting value."
             </p>
           </motion.div>
           
           <div className="mt-16 grid grid-cols-2 gap-8 border-t border-brand-paper/10 pt-8">
             <div>
               <div className="text-5xl font-serif mb-2 text-brand-accent">25<span className="text-brand-paper text-2xl font-sans">+</span></div>
-              <div className="text-[10px] uppercase tracking-widest text-brand-paper/50">YEARS OF DESIGN EXPERIENCE</div>
+              <div className="text-[10px] uppercase tracking-widest text-brand-paper/50">YEARS OF PROFESSIONAL DESIGN EXPERIENCE</div>
             </div>
             <div>
               <div className="text-5xl font-serif mb-2 text-brand-accent">150<span className="text-brand-paper text-2xl font-sans">+</span></div>
@@ -341,7 +352,7 @@ const About = () => {
             className="border-l-2 border-brand-accent/50 pl-6 py-2"
           >
             <p className="text-lg text-brand-paper/90 font-light leading-relaxed font-serif italic">
-              "We partner with businesses that value thoughtful design, strong branding, and exceptional user experiences. Every project is approached with clarity, creativity, and a commitment to delivering work that creates lasting impact."
+              "We partner with businesses that believe great design is a competitive advantage. Every project is built around understanding users, simplifying complexity, and creating digital products that help businesses grow with confidence."
             </p>
           </motion.div>
           
@@ -351,8 +362,8 @@ const About = () => {
                 <Compass size={20} className="text-brand-accent group-hover:text-brand-paper" />
               </div>
               <div>
-                <h4 className="text-sm uppercase tracking-widest font-medium mb-1">✦ CREATIVE EXCELLENCE</h4>
-                <p className="text-xs text-brand-paper/50 leading-relaxed">Thoughtfully crafted design that balances aesthetics and purpose.</p>
+                <h4 className="text-sm uppercase tracking-widest font-medium mb-1">✦ PRODUCT THINKING</h4>
+                <p className="text-xs text-brand-paper/50 leading-relaxed">Every design decision begins with understanding user problems and business objectives.</p>
               </div>
             </div>
  
@@ -361,8 +372,8 @@ const About = () => {
                 <Target size={20} className="text-brand-accent group-hover:text-brand-paper" />
               </div>
               <div>
-                <h4 className="text-sm uppercase tracking-widest font-medium mb-1">✦ STRATEGIC THINKING</h4>
-                <p className="text-xs text-brand-paper/50 leading-relaxed">Design decisions guided by business goals and user needs.</p>
+                <h4 className="text-sm uppercase tracking-widest font-medium mb-1">✦ BUSINESS-DRIVEN DESIGN</h4>
+                <p className="text-xs text-brand-paper/50 leading-relaxed">Combining user experience, strategy, and commercial thinking to create measurable outcomes.</p>
               </div>
             </div>
  
@@ -371,8 +382,8 @@ const About = () => {
                 <Laptop size={20} className="text-brand-accent group-hover:text-brand-paper" />
               </div>
               <div>
-                <h4 className="text-sm uppercase tracking-widest font-medium mb-1">✦ DIGITAL EXPERIENCES</h4>
-                <p className="text-xs text-brand-paper/50 leading-relaxed">Creating intuitive and engaging experiences across web and mobile.</p>
+                <h4 className="text-sm uppercase tracking-widest font-medium mb-1">✦ SCALABLE DIGITAL PRODUCTS</h4>
+                <p className="text-xs text-brand-paper/50 leading-relaxed">Designing SaaS platforms, enterprise software, websites, and mobile applications that grow with your business.</p>
               </div>
             </div>
  
@@ -381,8 +392,8 @@ const About = () => {
                 <Award size={20} className="text-brand-accent group-hover:text-brand-paper" />
               </div>
               <div>
-                <h4 className="text-sm uppercase tracking-widest font-medium mb-1">✦ PREMIUM EXECUTION</h4>
-                <p className="text-xs text-brand-paper/50 leading-relaxed">Attention to detail, consistency, and quality in every deliverable.</p>
+                <h4 className="text-sm uppercase tracking-widest font-medium mb-1">✦ DESIGN SYSTEMS</h4>
+                <p className="text-xs text-brand-paper/50 leading-relaxed">Creating scalable design foundations that improve consistency and accelerate development.</p>
               </div>
             </div>
           </div>
@@ -403,20 +414,21 @@ const Experience = () => {
   const bgBadgeY = useTransform(scrollYProgress, [0, 1], ["-12%", "30%"]);
 
   const coreExpertise = [
-    { name: "Brand Identity Design", icon: <Palette size={16} /> },
-    { name: "Creative Direction", icon: <Compass size={16} /> },
-    { name: "UI/UX Design", icon: <Layers size={16} /> },
-    { name: "Mobile App Design", icon: <Smartphone size={16} /> },
-    { name: "Website Design", icon: <Laptop size={16} /> },
+    { name: "Product Strategy", icon: <Target size={16} /> },
+    { name: "UX Research", icon: <Compass size={16} /> },
+    { name: "UI Design", icon: <Palette size={16} /> },
+    { name: "SaaS Product Design", icon: <Layers size={16} /> },
+    { name: "Enterprise Applications", icon: <Laptop size={16} /> },
+    { name: "Mobile Applications", icon: <Smartphone size={16} /> },
+    { name: "Web Applications", icon: <Laptop size={16} /> },
+    { name: "Dashboard Design", icon: <Layers size={16} /> },
+    { name: "Design Systems", icon: <Award size={16} /> },
+    { name: "Healthcare UX", icon: <Heart size={16} /> },
+    { name: "Branding", icon: <Palette size={16} /> },
     { name: "Packaging Design", icon: <Package size={16} /> },
-    { name: "Restaurant Branding", icon: <Utensils size={16} /> },
-    { name: "Social Media Design", icon: <Instagram size={16} /> },
-    { name: "Marketing Campaigns", icon: <Megaphone size={16} /> },
-    { name: "Corporate Communication", icon: <Briefcase size={16} /> },
-    { name: "Print & Production Design", icon: <Printer size={16} /> },
-    { name: "Presentation Design", icon: <Presentation size={16} /> },
-    { name: "Digital Strategy", icon: <Target size={16} /> },
-    { name: "Visual Storytelling", icon: <BookOpen size={16} /> }
+    { name: "Growth Marketing Design", icon: <Megaphone size={16} /> },
+    { name: "Creative Direction", icon: <Compass size={16} /> },
+    { name: "Visual Communication", icon: <Sparkles size={16} /> }
   ];
 
   return (
@@ -440,14 +452,14 @@ const Experience = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Our Journey</span>
-            <h2 className="text-5xl md:text-7xl font-light mb-8 leading-tight">
+            <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">OUR JOURNEY</span>
+            <h2 className="text-5xl md:text-7xl font-light mb-8 leading-tight text-brand-ink">
               More Than Design.<br />
-              <span className="italic text-brand-accent">Building Brands</span> & Experiences Since 1999.
+              <span className="italic text-brand-accent">Designing Products</span>, Brands & Digital Experiences Since 1999.
             </h2>
             <div className="relative pl-8 border-l border-brand-accent/30 space-y-6">
               <div className="text-brand-muted text-sm font-light leading-relaxed">
-                Starting at the turn of the millennium, our experience covers over 25 years of professional design across multiple communication channels.
+                Technology has evolved dramatically over the last two decades—and so has our journey.
               </div>
               <div className="flex gap-4 items-center">
                 <span className="text-5xl font-serif font-semibold text-brand-ink">25+</span>
@@ -466,13 +478,10 @@ const Experience = () => {
             className="space-y-6 text-base text-brand-muted/90 font-light leading-relaxed"
           >
             <p>
-              With over 25 years of professional experience, we have worked across branding, packaging, graphic design, UI/UX, digital marketing, and creative strategy.
+              From branding, packaging, and print communication to enterprise applications, SaaS products, AI-powered interfaces, healthcare platforms, and modern digital ecosystems, our experience spans every stage of digital transformation.
             </p>
             <p>
-              Our journey spans traditional print media, corporate branding, retail communication, packaging design, social media marketing, websites, and digital product experiences.
-            </p>
-            <p>
-              This multidisciplinary background allows me to understand both business goals and user needs, creating solutions that are visually compelling and commercially effective.
+              This multidisciplinary background enables us to understand business strategy, user behavior, technology, and visual communication, creating products that are both elegant and commercially successful.
             </p>
           </motion.div>
 
@@ -503,6 +512,9 @@ const Experience = () => {
 };
 
 const Capabilities = () => {
+  const [activeTab, setActiveTab] = useState<'phases' | 'models'>('phases');
+  const [activePhaseIndex, setActivePhaseIndex] = useState(0);
+
   const containerRef = React.useRef(null);
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -511,86 +523,413 @@ const Capabilities = () => {
 
   const bgCircleY = useTransform(scrollYProgress, [0, 1], ["-20%", "20%"]);
 
-  // Unified, aligned column-level scrolling factor
-  const colY = useTransform(scrollYProgress, [0, 1], ["3%", "-3%"]);
+  const scopePhases = [
+    {
+      number: "01",
+      title: "Strategic Discovery & Product Architecture",
+      subtitle: "Laying a rock-solid foundation before moving a single pixel.",
+      icon: <Compass className="text-brand-accent" size={24} />,
+      duration: "Weeks 1 — 3",
+      tag: "Discovery & Strategy",
+      focusAreas: [
+        "Product vision mapping & stakeholder interviews",
+        "Competitor benchmarking & UX heuristic teardowns",
+        "User persona development & journey mapping",
+        "Information architecture & global sitemap structuring"
+      ],
+      deliverables: [
+        "Interactive IA Map",
+        "User Journey Maps",
+        "UX Heuristic Audit",
+        "Feature Prioritization Matrix"
+      ]
+    },
+    {
+      number: "02",
+      title: "Interactive UX Wireframing & Prototyping",
+      subtitle: "Validating workflows, navigation ergonomics, and edge cases.",
+      icon: <Workflow className="text-brand-accent" size={24} />,
+      duration: "Weeks 3 — 6",
+      tag: "UX & Ergonomics",
+      focusAreas: [
+        "Low & high-fidelity structural wireframing",
+        "Multi-role user flows & permission matrixes",
+        "Rapid clickable prototyping for user testing",
+        "Ergonomic mobile & desktop interaction design"
+      ],
+      deliverables: [
+        "Clickable Figma Prototype",
+        "Edge-case Inventory",
+        "User Flow Diagrams",
+        "Usability Validation Report"
+      ]
+    },
+    {
+      number: "03",
+      title: "High-Fidelity UI, Brand & Design Systems",
+      subtitle: "Pixel-perfect visual craftsmanship backed by tokenized systems.",
+      icon: <Palette className="text-brand-accent" size={24} />,
+      duration: "Weeks 6 — 10",
+      tag: "UI & Design System",
+      focusAreas: [
+        "Modern visual identity & interface styling",
+        "Atomic component libraries with auto-layout",
+        "WCAG AA accessible color contrast & type scales",
+        "Light & Dark theme adaptability across all screens"
+      ],
+      deliverables: [
+        "Tokenized Figma UI Kit",
+        "Responsive Breakpoints (Mobile to 4K)",
+        "Micro-interaction Specs",
+        "Brand Style Guidelines"
+      ]
+    },
+    {
+      number: "04",
+      title: "Production Handoff, Governance & Scale",
+      subtitle: "Bridging design and engineering with zero ambiguity.",
+      icon: <CheckCircle2 className="text-brand-accent" size={24} />,
+      duration: "Weeks 10 — 12+",
+      tag: "Engineering Handoff",
+      focusAreas: [
+        "Production-ready Figma redlines & design tokens",
+        "Zeroheight / Storybook design-to-code alignment",
+        "Active design QA during front-end implementation",
+        "Post-launch user testing & conversion optimization"
+      ],
+      deliverables: [
+        "Dev Handoff Specifications",
+        "Production Asset Bundle (SVG/WebP)",
+        "Design QA Checklist",
+        "Go-To-Market Design Toolkit"
+      ]
+    }
+  ];
 
-  const categories = [
+  const engagementModels = [
     {
-      title: "Brand & Identity",
-      icon: <Palette className="text-brand-accent animate-pulse" size={24} />,
-      items: ["Logo Systems", "Brand Guidelines", "Visual Identity", "Brand Refresh"]
+      type: "Model 01",
+      name: "Fixed-Scope Product Sprint",
+      ideal: "Best for MVPs, 0-to-1 products, or focused feature overhauls.",
+      timeline: "4 — 8 Weeks",
+      features: [
+        "Dedicated scope with agreed milestones",
+        "Full UX architecture & high-fidelity UI",
+        "Interactive prototype & dev handoff",
+        "2 rounds of milestone reviews per phase"
+      ],
+      highlight: "Guaranteed Turnaround"
     },
     {
-      title: "User Experience",
-      icon: <Layers className="text-brand-accent" size={24} />,
-      items: ["Website UI/UX", "Mobile Applications", "Dashboards", "Wireframes", "Design Systems"]
+      type: "Model 02",
+      name: "Embedded Design Partner",
+      ideal: "Best for scaling SaaS & high-growth enterprise teams.",
+      timeline: "Monthly Retainer (3+ Months)",
+      features: [
+        "Continuous product feature design & iterations",
+        "Active design system scaling & maintenance",
+        "Direct Slack & asynchronous Figma collaboration",
+        "Bi-weekly sprint planning & team alignment"
+      ],
+      highlight: "High Flexibility"
     },
     {
-      title: "Marketing & Growth",
-      icon: <Megaphone className="text-brand-accent" size={24} />,
-      items: ["Social Media Campaigns", "Instagram Reels", "WhatsApp Marketing", "Promotional Campaigns"]
-    },
-    {
-      title: "Print & Packaging",
-      icon: <Package className="text-brand-accent" size={24} />,
-      items: ["Product Packaging", "Restaurant Menus", "Brochures", "Catalogues", "Point of Sale Materials", "Outdoor Branding"]
-    },
-    {
-      title: "Creative Consulting",
-      icon: <Briefcase className="text-brand-accent" size={24} />,
-      items: ["Brand Audits", "Digital Strategy", "Design Reviews", "Creative Direction"]
+      type: "Model 03",
+      name: "Design System & UX Teardown",
+      ideal: "Best for existing products needing modern UI & consistency.",
+      timeline: "2 — 4 Weeks",
+      features: [
+        "Comprehensive UI/UX heuristic audit",
+        "Component refactoring into tokenized auto-layout",
+        "Accessibility & contrast ratio overhaul",
+        "Developer token integration guidelines"
+      ],
+      highlight: "Fast Impact"
     }
   ];
 
   return (
     <section ref={containerRef} id="capabilities" className="py-24 bg-brand-ink text-brand-paper relative overflow-hidden border-b border-brand-paper/5">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-12 gap-12 items-start mb-20">
-          <div className="lg:col-span-5 relative">
-            <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Our Scope</span>
-            <h2 className="text-5xl md:text-7xl font-light text-brand-paper mb-8 leading-tight">
-              End-to-End <br />
-              <span className="italic text-brand-accent">Creative Solutions</span>
+        
+        {/* Section Header */}
+        <div className="grid lg:grid-cols-12 gap-12 items-end mb-16">
+          <div className="lg:col-span-7">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-accent/10 border border-brand-accent/20 text-brand-accent text-xs font-mono font-medium uppercase tracking-widest mb-6">
+              <Workflow size={14} />
+              <span>Full-Cycle Delivery Framework</span>
+            </div>
+            <h2 className="text-4xl sm:text-6xl lg:text-7xl font-light text-brand-paper leading-[1.1]">
+              Our Scope & <br />
+              <span className="italic text-brand-accent font-serif">Delivery Architecture</span>
             </h2>
           </div>
-          <div className="lg:col-span-7 pt-4">
-            <p className="text-base text-brand-paper/60 font-light leading-relaxed max-w-xl">
-              We provide comprehensive creative capabilities designed to elevate every face of your brand, establishing strong visual consistency across digital interfaces, physical items, and marketing touchpoints.
+          <div className="lg:col-span-5">
+            <p className="text-sm sm:text-base text-brand-paper/70 font-light leading-relaxed mb-6">
+              Unlike generic agency retainers, our scope is engineered around tangible deliverables, measurable milestones, and production-ready design tokens that developers love.
             </p>
+
+            {/* View Switcher Tabs */}
+            <div className="inline-flex p-1.5 rounded-xl bg-brand-paper/[0.06] border border-brand-paper/10">
+              <button
+                onClick={() => setActiveTab('phases')}
+                className={`px-5 py-2 rounded-lg text-xs font-medium uppercase tracking-wider transition-all cursor-pointer ${
+                  activeTab === 'phases'
+                    ? 'bg-brand-accent text-brand-ink shadow-md font-semibold'
+                    : 'text-brand-paper/60 hover:text-brand-paper hover:bg-brand-paper/[0.04]'
+                }`}
+              >
+                01. Delivery Phases
+              </button>
+              <button
+                onClick={() => setActiveTab('models')}
+                className={`px-5 py-2 rounded-lg text-xs font-medium uppercase tracking-wider transition-all cursor-pointer ${
+                  activeTab === 'models'
+                    ? 'bg-brand-accent text-brand-ink shadow-md font-semibold'
+                    : 'text-brand-paper/60 hover:text-brand-paper hover:bg-brand-paper/[0.04]'
+                }`}
+              >
+                02. Engagement Models
+              </button>
+            </div>
           </div>
         </div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
-          {categories.map((category, idx) => (
-            <motion.div
-              style={{ y: colY }}
-              key={category.title}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="p-8 border border-brand-paper/5 bg-brand-paper/[0.02] hover:bg-brand-paper/[0.05] hover:border-brand-accent/40 transition-all duration-500 flex flex-col h-full group"
-            >
-              <div className="mb-6 p-3 bg-brand-paper/[0.03] w-fit rounded-lg group-hover:bg-brand-accent/10 transition-colors duration-500">
-                {category.icon}
+        {/* Tab 1: Delivery Phases (Interactive Editorial Scope Matrix) */}
+        {activeTab === 'phases' && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="space-y-8"
+          >
+            {/* Phase Selector Chips */}
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
+              {scopePhases.map((phase, idx) => (
+                <button
+                  key={phase.number}
+                  onClick={() => setActivePhaseIndex(idx)}
+                  className={`p-4 rounded-xl text-left border transition-all duration-300 cursor-pointer flex items-center justify-between ${
+                    activePhaseIndex === idx
+                      ? 'bg-brand-paper/10 border-brand-accent shadow-lg text-brand-paper'
+                      : 'bg-brand-paper/[0.02] border-brand-paper/5 text-brand-paper/50 hover:bg-brand-paper/[0.05] hover:text-brand-paper/80'
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <span className={`text-xs font-mono font-bold px-2 py-0.5 rounded ${
+                      activePhaseIndex === idx ? 'bg-brand-accent text-brand-ink' : 'bg-brand-paper/10 text-brand-paper/60'
+                    }`}>
+                      {phase.number}
+                    </span>
+                    <span className="text-xs font-medium truncate">{phase.tag}</span>
+                  </div>
+                  <ChevronRight size={14} className={activePhaseIndex === idx ? 'text-brand-accent' : 'opacity-30'} />
+                </button>
+              ))}
+            </div>
+
+            {/* Active Phase Detailed Bento Display */}
+            {(() => {
+              const currentPhase = scopePhases[activePhaseIndex];
+              return (
+                <div className="bg-brand-paper/[0.03] border border-brand-paper/10 rounded-2xl p-8 sm:p-12 lg:p-14 relative overflow-hidden backdrop-blur-sm">
+                  <div className="absolute top-0 right-0 w-80 h-80 bg-brand-accent/5 rounded-full blur-3xl pointer-events-none"></div>
+
+                  <div className="grid lg:grid-cols-12 gap-10 items-start">
+                    
+                    {/* Left Details */}
+                    <div className="lg:col-span-6 space-y-6">
+                      <div className="flex items-center gap-4">
+                        <span className="text-4xl sm:text-5xl font-serif text-brand-accent font-light">
+                          {currentPhase.number}
+                        </span>
+                        <div className="h-8 w-px bg-brand-paper/15"></div>
+                        <div>
+                          <span className="text-[11px] uppercase tracking-widest text-brand-accent font-mono block font-medium">
+                            {currentPhase.tag}
+                          </span>
+                          <span className="text-xs text-brand-paper/50 font-mono flex items-center gap-1.5 mt-0.5">
+                            <Clock size={12} />
+                            {currentPhase.duration}
+                          </span>
+                        </div>
+                      </div>
+
+                      <h3 className="text-2xl sm:text-3xl font-serif text-brand-paper leading-tight font-medium">
+                        {currentPhase.title}
+                      </h3>
+
+                      <p className="text-sm sm:text-base text-brand-paper/70 font-light leading-relaxed">
+                        {currentPhase.subtitle}
+                      </p>
+
+                      <div className="pt-4 border-t border-brand-paper/10">
+                        <span className="text-xs uppercase tracking-widest text-brand-paper/40 font-mono block mb-4">
+                          Core Scope & Focus Areas
+                        </span>
+                        <ul className="space-y-3">
+                          {currentPhase.focusAreas.map((focus, fIdx) => (
+                            <li key={fIdx} className="text-xs sm:text-sm text-brand-paper/80 flex items-start gap-3 font-light">
+                              <span className="w-1.5 h-1.5 rounded-full bg-brand-accent mt-2 flex-shrink-0"></span>
+                              <span>{focus}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+                    </div>
+
+                    {/* Right Deliverables Sandbox */}
+                    <div className="lg:col-span-6 space-y-6">
+                      <div className="bg-brand-paper/[0.04] border border-brand-paper/10 rounded-xl p-6 sm:p-8 space-y-6">
+                        <div className="flex items-center justify-between pb-4 border-b border-brand-paper/10">
+                          <span className="text-xs uppercase tracking-widest text-brand-accent font-mono font-medium flex items-center gap-2">
+                            <FileText size={14} />
+                            <span>Tangible Deliverables Handed Over</span>
+                          </span>
+                          <span className="text-[10px] text-brand-paper/40 font-mono">100% Production Ready</span>
+                        </div>
+
+                        <div className="grid sm:grid-cols-2 gap-3">
+                          {currentPhase.deliverables.map((item, dIdx) => (
+                            <div 
+                              key={dIdx} 
+                              className="p-4 rounded-lg bg-brand-paper/[0.03] border border-brand-paper/5 hover:border-brand-accent/40 transition-all group"
+                            >
+                              <div className="w-6 h-6 rounded-md bg-brand-accent/10 text-brand-accent flex items-center justify-center mb-2 group-hover:bg-brand-accent group-hover:text-brand-ink transition-colors">
+                                <Check size={12} strokeWidth={3} />
+                              </div>
+                              <span className="text-xs text-brand-paper font-medium block leading-snug">
+                                {item}
+                              </span>
+                            </div>
+                          ))}
+                        </div>
+
+                        {/* Direct Scope Consultation CTA */}
+                        <div className="pt-4 border-t border-brand-paper/10 flex flex-wrap items-center justify-between gap-4">
+                          <div>
+                            <span className="text-xs text-brand-paper/60 block font-light">Need a custom scope proposal?</span>
+                            <span className="text-xs text-brand-accent font-medium">We tailor deliverable matrixes to your exact stack.</span>
+                          </div>
+
+                          <a
+                            href={`https://wa.me/917977765228?text=${encodeURIComponent(
+                              `Hello AAKAR Studio,\n\nI would like to discuss the scope of work for Phase ${currentPhase.number} (${currentPhase.title}).\n\nPlease let me know your availability for a scope review.`
+                            )}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-[#25D366] text-white text-xs uppercase tracking-widest font-semibold hover:bg-[#20bd5a] transition-all shadow-sm hover:shadow-md cursor-pointer"
+                          >
+                            <MessageSquare size={14} />
+                            <span>Discuss Phase {currentPhase.number}</span>
+                            <ArrowUpRight size={12} />
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+              );
+            })()}
+
+            {/* Bottom 4-Phase Grid Summary */}
+            <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 pt-4">
+              {scopePhases.map((phase, pIdx) => (
+                <div
+                  key={phase.number}
+                  onClick={() => setActivePhaseIndex(pIdx)}
+                  className={`p-6 rounded-xl border transition-all duration-300 cursor-pointer ${
+                    activePhaseIndex === pIdx 
+                      ? 'bg-brand-paper/10 border-brand-accent' 
+                      : 'bg-brand-paper/[0.02] border-brand-paper/5 hover:bg-brand-paper/[0.05]'
+                  }`}
+                >
+                  <span className="text-xs font-mono text-brand-accent font-semibold block mb-2">{phase.number} / {phase.tag}</span>
+                  <h4 className="text-sm font-medium text-brand-paper mb-2">{phase.title}</h4>
+                  <span className="text-[11px] text-brand-paper/40 font-mono block">{phase.duration}</span>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+        )}
+
+        {/* Tab 2: Engagement Models */}
+        {activeTab === 'models' && (
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="grid lg:grid-cols-3 gap-8"
+          >
+            {engagementModels.map((model, idx) => (
+              <div
+                key={model.name}
+                className={`p-8 sm:p-10 rounded-2xl border transition-all duration-500 flex flex-col justify-between ${
+                  idx === 1 
+                    ? 'bg-brand-paper/[0.06] border-brand-accent/60 shadow-2xl relative' 
+                    : 'bg-brand-paper/[0.02] border-brand-paper/10 hover:border-brand-paper/20'
+                }`}
+              >
+                {idx === 1 && (
+                  <div className="absolute -top-3.5 right-6 px-3.5 py-1 rounded-full bg-brand-accent text-brand-ink text-[10px] uppercase font-mono font-bold tracking-widest">
+                    Most Popular
+                  </div>
+                )}
+
+                <div className="space-y-6">
+                  <div>
+                    <span className="text-xs font-mono text-brand-accent uppercase tracking-widest block mb-2 font-semibold">
+                      {model.type}
+                    </span>
+                    <h3 className="text-2xl font-serif text-brand-paper font-medium mb-2">
+                      {model.name}
+                    </h3>
+                    <p className="text-xs text-brand-paper/60 font-light leading-relaxed">
+                      {model.ideal}
+                    </p>
+                  </div>
+
+                  <div className="p-4 rounded-xl bg-brand-paper/[0.04] border border-brand-paper/5 flex items-center justify-between">
+                    <span className="text-xs text-brand-paper/50 font-mono">Turnaround</span>
+                    <span className="text-xs font-mono font-bold text-brand-paper">{model.timeline}</span>
+                  </div>
+
+                  <div className="space-y-3 pt-4 border-t border-brand-paper/10">
+                    <span className="text-[11px] uppercase tracking-widest text-brand-paper/40 font-mono block mb-2">
+                      What is Included
+                    </span>
+                    {model.features.map((feat, fIdx) => (
+                      <div key={fIdx} className="text-xs text-brand-paper/75 flex items-start gap-2.5 font-light">
+                        <CheckCircle2 size={14} className="text-brand-accent mt-0.5 flex-shrink-0" />
+                        <span>{feat}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="pt-8 mt-8 border-t border-brand-paper/10">
+                  <a
+                    href={`https://wa.me/917977765228?text=${encodeURIComponent(
+                      `Hello AAKAR Studio,\n\nI am interested in your "${model.name}" engagement model.\n\nCould we schedule a call to review requirements and timelines?`
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-full bg-[#25D366] text-white text-xs uppercase tracking-widest font-semibold hover:bg-[#20bd5a] transition-all shadow-sm hover:shadow-md cursor-pointer"
+                  >
+                    <MessageSquare size={14} />
+                    <span>Inquire About {model.name.split(' ')[0]}</span>
+                    <ArrowUpRight size={12} />
+                  </a>
+                </div>
               </div>
-              <h3 className="text-lg font-serif text-brand-paper mb-6 group-hover:text-brand-accent transition-colors duration-300">
-                {category.title}
-              </h3>
-              <ul className="space-y-3.5 mt-auto border-t border-brand-paper/10 pt-6">
-                {category.items.map((item) => (
-                  <li key={item} className="text-xs text-brand-paper/50 flex items-center gap-2 font-light hover:text-brand-paper/85 transition-colors duration-300">
-                    <span className="w-1 h-1 rounded-full bg-brand-accent/60 group-hover:bg-brand-accent transition-colors"></span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
-        </div>
+            ))}
+          </motion.div>
+        )}
+
       </div>
 
-      {/* Decorative details */}
+      {/* Decorative background glow */}
       <motion.div 
         style={{ y: bgCircleY }}
         className="absolute right-0 top-1/4 w-96 h-96 bg-brand-accent/5 rounded-full blur-3xl -z-10 pointer-events-none"
@@ -609,12 +948,12 @@ const WhyChooseMe = () => {
   const colY = useTransform(scrollYProgress, [0, 1], ["3%", "-3%"]);
 
   const points = [
-    { title: "25+ Years Creative Experience", desc: "A quarter-century of designing for luxury and leading brands globally." },
-    { title: "Print + Digital Expertise", desc: "Seamless synergy across tangible offline assets and digital ecosystems." },
-    { title: "UI/UX + Branding Knowledge", desc: "Combining customer psychology, sleek interface design, and deep brand history." },
-    { title: "Strategic Business Thinking", desc: "We don't just build designs. We design to drive real commercial results and outcomes." },
-    { title: "Production & Execution Experience", desc: "Heavy expertise in final delivery, modern layouts, and premium production values." },
-    { title: "Agency & Client-Side Understanding", desc: "Understanding corporate needs, dynamic challenges, and customer aspirations." }
+    { title: "25+ Years of Professional Design Experience", desc: "A multidisciplinary design background spanning digital products, branding, marketing, and enterprise communication." },
+    { title: "Deep Expertise in SaaS & Enterprise Products", desc: "Designing intuitive dashboards, business applications, customer portals, and digital ecosystems." },
+    { title: "Product Strategy Meets Beautiful UI", desc: "Balancing usability, functionality, and premium visual design." },
+    { title: "Branding That Supports Product Growth", desc: "Building memorable brands that strengthen products and customer trust." },
+    { title: "Scalable Design Systems", desc: "Creating reusable design systems that improve development speed and consistency." },
+    { title: "One Studio. Multiple Capabilities.", desc: "From product strategy and UX to branding, packaging, marketing, and launch support." }
   ];
 
   return (
@@ -623,22 +962,22 @@ const WhyChooseMe = () => {
         <div className="grid lg:grid-cols-12 gap-16 items-start mb-12">
           <motion.div style={{ y: colY }} className="lg:col-span-5">
             <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Distinction</span>
-            <span className="text-xs uppercase tracking-[0.5em] text-brand-muted mb-6 font-medium block">WHY CLIENTS WORK WITH ME</span>
+            <span className="text-xs uppercase tracking-[0.5em] text-brand-muted mb-6 font-medium block">WHY CLIENTS WORK WITH US</span>
             <h2 className="text-5xl md:text-7xl font-light mb-8 leading-tight">
-              A Rare <span className="italic text-brand-accent">Combination</span>
+              A Rare <span className="italic text-brand-accent font-serif font-normal">Combination</span>
             </h2>
             
             <div className="bg-brand-ink text-brand-paper p-8 rounded-2xl border border-brand-paper/5 shadow-xl space-y-6 mt-12 relative overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-brand-accent/5 rounded-full blur-2xl"></div>
-              <h3 className="text-xs uppercase tracking-[0.3em] font-medium text-brand-accent">WHAT MAKES AAKAR DIFFERENT</h3>
+              <h3 className="text-xs uppercase tracking-[0.3em] font-medium text-brand-accent font-mono font-bold">WHAT MAKES AAKAR STUDIO DIFFERENT</h3>
               <p className="text-xl font-serif italic text-brand-paper/90 leading-relaxed">
-                "Most designers focus on visuals. We focus on the complete experience."
+                "Most design studios focus on visuals. We focus on creating digital products that solve business problems, improve customer experiences, and support long-term growth."
               </p>
               <p className="text-sm font-light text-brand-paper/60 leading-relaxed">
-                From brand identity and packaging to websites, mobile apps, social media, and marketing communication, every solution is designed to create meaningful connections between brands and people.
+                Every engagement combines strategic thinking, product experience, branding expertise, and thoughtful execution to help businesses launch better products and stronger brands.
               </p>
-              <div className="text-xs uppercase tracking-widest text-brand-accent font-medium pt-4 border-t border-brand-paper/15">
-                "Because great design is not just seen. It is experienced."
+              <div className="text-xs uppercase tracking-widest text-brand-accent font-medium pt-4 border-t border-brand-paper/15 font-mono">
+                "Because exceptional design isn't decoration—it's a business advantage."
               </div>
             </div>
           </motion.div>
@@ -656,7 +995,7 @@ const WhyChooseMe = () => {
                 >
                   <div className="absolute top-0 left-0 w-[2px] h-0 bg-brand-accent group-hover:h-full transition-all duration-300"></div>
                   <span className="text-xs font-serif text-brand-accent/50 block mb-3 font-semibold">0{idx + 1}</span>
-                  <h3 className="text-md font-sans font-medium mb-2 group-hover:text-brand-accent transition-colors">
+                  <h3 className="text-md font-sans font-medium mb-2 group-hover:text-brand-accent transition-colors text-brand-ink">
                     {point.title}
                   </h3>
                   <p className="text-xs font-light text-brand-muted leading-relaxed">
@@ -674,7 +1013,7 @@ const WhyChooseMe = () => {
               className="p-8 md:p-12 border border-brand-accent/15 bg-brand-accent/[0.03] space-y-4 rounded-xl mt-12"
             >
               <p className="text-lg md:text-xl font-light text-brand-ink leading-relaxed font-serif italic">
-                "We don't just create designs. We help businesses communicate better, look better, and grow through thoughtful design and digital experiences."
+                "We don't simply design interfaces. We help businesses build products people enjoy using and brands people remember."
               </p>
             </motion.div>
           </motion.div>
@@ -696,9 +1035,9 @@ const Stats = () => {
   const stats = [
     { value: "25+", label: "Years Experience" },
     { value: "200+", label: "Projects Delivered" },
-    { value: "50+", label: "Brands Supported" },
+    { value: "50+", label: "Businesses Supported" },
     { value: "10+", label: "Industries Served" },
-    { value: "1000+", label: "Creative Assets Designed" }
+    { value: "1000+", label: "Design Assets Delivered" }
   ];
 
   return (
@@ -748,14 +1087,14 @@ const Industries = () => {
   const cardsY = useTransform(scrollYProgress, [0, 1], ["-4%", "4%"]);
 
   const industries = [
-    { name: "Hospitality & Restaurants", icon: <Utensils size={20} /> },
-    { name: "Healthcare & Wellness", icon: <Heart size={20} /> },
-    { name: "Retail & FMCG", icon: <ShoppingBag size={20} /> },
-    { name: "Real Estate", icon: <Home size={20} /> },
-    { name: "Education", icon: <GraduationCap size={20} /> },
-    { name: "Corporate & Enterprise", icon: <Building2 size={20} /> },
-    { name: "Startups", icon: <Rocket size={20} /> },
     { name: "Technology & SaaS", icon: <Cpu size={20} /> },
+    { name: "Healthcare & Wellness", icon: <Heart size={20} /> },
+    { name: "Enterprise Software", icon: <Building2 size={20} /> },
+    { name: "AI Products", icon: <Sparkles size={20} /> },
+    { name: "Retail & FMCG", icon: <ShoppingBag size={20} /> },
+    { name: "Hospitality & Restaurants", icon: <Utensils size={20} /> },
+    { name: "Education", icon: <GraduationCap size={20} /> },
+    { name: "Real Estate", icon: <Home size={20} /> },
     { name: "Manufacturing", icon: <Factory size={20} /> },
     { name: "Consumer Products", icon: <Box size={20} /> }
   ];
@@ -767,14 +1106,14 @@ const Industries = () => {
           <motion.div style={{ y: leftY }} className="lg:col-span-5">
             <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Specialization</span>
             <span className="text-xs uppercase tracking-[0.5em] text-brand-muted mb-6 font-medium block">INDUSTRIES</span>
-            <h2 className="text-5xl md:text-7xl font-light leading-tight">
-              Sectors We <br />
-              <span className="italic text-brand-accent">Elevate</span>
+            <h2 className="text-5xl md:text-7xl font-light leading-tight text-brand-ink">
+              Industries We <br />
+              <span className="italic text-brand-accent">Serve</span>
             </h2>
           </motion.div>
           <div className="lg:col-span-7">
             <p className="text-base text-brand-muted font-light leading-relaxed max-w-xl">
-              Our multidisciplinary background allows us to build powerful brand experiences, beautiful products, and high-conversion web layouts across various industries, creating tailored and scalable digital assets.
+              Every industry has unique challenges. Our multidisciplinary experience allows us to create tailored digital products, scalable systems, and premium brand experiences across multiple sectors.
             </p>
           </div>
         </div>
@@ -819,24 +1158,45 @@ const Services = () => {
 
   const services = [
     {
-      title: "Brand Identity",
-      desc: "Build a premium, memorable identity that attracts the right audience through refined visual language.",
-      icon: <Layers size={24} />,
-      list: ["Logotype Design", "Color Strategy", "Brand Guidelines", "Visual Language"],
+      title: "Digital Product Design",
+      desc: "Transform complex ideas into intuitive SaaS products, enterprise platforms, customer portals, and digital experiences focused on usability and business growth.",
+      icon: <Cpu size={24} />,
+      list: ["Product Strategy", "UX Architecture", "User Flows", "Wireframes", "Product Interfaces"],
       y: cardY
     },
     {
-      title: "UI/UX Design",
-      desc: "Create websites that don’t just look good—but convert visitors into loyal customers with seamless experience.",
+      title: "UX Research & Experience Design",
+      desc: "Understanding user behavior through research, information architecture, journey mapping, usability, and interaction design.",
       icon: <Compass size={24} />,
-      list: ["Responsive Web Design", "User Journeys", "Prototype Development", "Conversion Optimization"],
+      list: ["User Research", "Journey Mapping", "Information Architecture", "Prototyping", "Usability Testing"],
       y: cardY
     },
     {
-      title: "Social Media Design",
-      desc: "Consistent, high-end visuals that elevate your brand presence across all digital touchpoints.",
-      icon: <Sparkles size={24} />,
-      list: ["Content Systems", "Motion Graphics", "Template Design", "Art Direction"],
+      title: "Web & Mobile Applications",
+      desc: "Modern responsive experiences designed for scalability, accessibility, and exceptional usability.",
+      icon: <Smartphone size={24} />,
+      list: ["Website Design", "SaaS Platforms", "Mobile Applications", "Dashboards", "Responsive Design"],
+      y: cardY
+    },
+    {
+      title: "Brand Identity",
+      desc: "Build memorable brands that create trust, improve recognition, and support long-term growth.",
+      icon: <Palette size={24} />,
+      list: ["Logo Design", "Brand Systems", "Visual Identity", "Brand Guidelines"],
+      y: cardY
+    },
+    {
+      title: "Growth Design",
+      desc: "Design marketing assets that help businesses launch, communicate, and scale.",
+      icon: <Megaphone size={24} />,
+      list: ["Landing Pages", "Email Campaigns", "Social Media", "Product Launch Assets", "Marketing Communication"],
+      y: cardY
+    },
+    {
+      title: "Packaging & Visual Communication",
+      desc: "Premium packaging and communication design that elevate products across digital and physical experiences.",
+      icon: <Package size={24} />,
+      list: ["Packaging Design", "Print Design", "Restaurant Menus", "Corporate Collateral"],
       y: cardY
     }
   ];
@@ -846,44 +1206,66 @@ const Services = () => {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="mb-20 text-center flex flex-col items-center">
           <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Expertise</span>
-          <h2 className="text-5xl md:text-7xl font-light">Services</h2>
+          <h2 className="text-5xl md:text-7xl font-light text-brand-ink">Services</h2>
         </div>
 
         <div className="grid md:grid-cols-3 gap-8">
-          {services.map((service, idx) => (
-            <motion.div
-              style={{ y: service.y }}
-              key={service.title}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6 }}
-              className="bg-white p-12 group hover:bg-brand-ink hover:text-brand-paper transition-all duration-500 border border-brand-ink/5"
-            >
-              <div className="text-brand-accent mb-8 group-hover:scale-110 transition-transform duration-500">
-                {service.icon}
-              </div>
-              <h3 className="text-2xl mb-4 group-hover:text-brand-accent transition-colors">{service.title}</h3>
-              <p className="text-sm text-brand-muted mb-8 leading-relaxed group-hover:text-brand-paper/60 transition-colors">
-                {service.desc}
-              </p>
-              <ul className="space-y-3 pt-6 border-t border-brand-ink/5 group-hover:border-brand-paper/10">
-                {service.list.map(item => (
-                  <li key={item} className="text-[11px] uppercase tracking-widest flex items-center gap-2 group-hover:text-brand-paper/80">
-                    <div className="w-1 h-1 rounded-full bg-brand-accent"></div>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </motion.div>
-          ))}
+          {services.map((service, idx) => {
+            const serviceWhatsappText = encodeURIComponent(
+              `Hello AAKAR Studio,\n\nI would like to inquire about your "${service.title}" services.\n\nLooking forward to discussing our project.`
+            );
+            const serviceWhatsappLink = `https://wa.me/917977765228?text=${serviceWhatsappText}`;
+
+            return (
+              <motion.div
+                style={{ y: service.y }}
+                key={service.title}
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.6 }}
+                className="bg-white p-10 lg:p-12 group hover:bg-brand-ink hover:text-brand-paper transition-all duration-500 border border-brand-ink/5 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="text-brand-accent mb-8 group-hover:scale-110 transition-transform duration-500">
+                    {service.icon}
+                  </div>
+                  <h3 className="text-2xl mb-4 group-hover:text-brand-accent transition-colors font-serif font-medium">{service.title}</h3>
+                  <p className="text-sm text-brand-muted mb-8 leading-relaxed group-hover:text-brand-paper/60 transition-colors font-light">
+                    {service.desc}
+                  </p>
+                  <ul className="space-y-3 pt-6 border-t border-brand-ink/5 group-hover:border-brand-paper/10">
+                    {service.list.map(item => (
+                      <li key={item} className="text-[11px] uppercase tracking-widest flex items-center gap-2 group-hover:text-brand-paper/80 font-mono font-medium">
+                        <div className="w-1 h-1 rounded-full bg-brand-accent"></div>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+
+                <div className="pt-8 mt-8 border-t border-brand-ink/5 group-hover:border-brand-paper/10">
+                  <a
+                    href={serviceWhatsappLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="w-full inline-flex items-center justify-center gap-2.5 px-5 py-3 rounded-full bg-[#25D366] text-white text-xs uppercase tracking-widest font-semibold hover:bg-[#20bd5a] group-hover:bg-[#25D366] group-hover:text-white transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer"
+                  >
+                    <MessageSquare size={16} />
+                    <span>Inquire on WhatsApp</span>
+                    <ArrowUpRight size={14} />
+                  </a>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
       </div>
     </section>
   );
 };
 
-const PortfolioItem = ({ title, problem, solution, result, img, delay }: any) => {
+const PortfolioItem = ({ title, problem, solution, result, img, delay, caseStudyId, onCaseStudyClick }: any) => {
   const ref = React.useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-10% 0px" });
 
@@ -915,9 +1297,13 @@ const PortfolioItem = ({ title, problem, solution, result, img, delay }: any) =>
       <div className="p-8 md:p-16 flex flex-col justify-center bg-brand-paper">
         <div className="flex justify-between items-start mb-8">
           <h3 className="text-3xl md:text-4xl">{title}</h3>
-          <a href="#" className="w-12 h-12 flex items-center justify-center border border-brand-ink/10 rounded-full hover:bg-brand-ink hover:text-brand-paper transition-all">
+          <button 
+            onClick={() => onCaseStudyClick && onCaseStudyClick(caseStudyId)}
+            title="View Case Study"
+            className="w-12 h-12 flex items-center justify-center border border-brand-ink/10 rounded-full hover:bg-[#2563EB] hover:text-white hover:border-[#2563EB] transition-all cursor-pointer"
+          >
             <ArrowUpRight size={20} />
-          </a>
+          </button>
         </div>
         
         <div className="space-y-6">
@@ -933,21 +1319,31 @@ const PortfolioItem = ({ title, problem, solution, result, img, delay }: any) =>
             <span className="text-[10px] uppercase tracking-widest text-brand-accent block mb-1">Result</span>
             <p className="text-sm font-medium">{result}</p>
           </div>
+
+          <div className="pt-2">
+            <button
+              onClick={() => onCaseStudyClick && onCaseStudyClick(caseStudyId)}
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-[#2563EB] text-white text-xs uppercase tracking-widest font-semibold rounded-full hover:bg-blue-700 transition-all cursor-pointer shadow-sm hover:shadow-md"
+            >
+              <span>Explore Case Study</span>
+              <ArrowUpRight size={14} />
+            </button>
+          </div>
         </div>
       </div>
     </motion.div>
   );
 };
 
-const Portfolio = ({ onViewAllClick }: { onViewAllClick: () => void }) => {
+const Portfolio = ({ onViewAllClick, onCaseStudyClick }: { onViewAllClick: () => void; onCaseStudyClick: (caseStudyId?: string) => void }) => {
   return (
     <section id="work" className="py-24">
       <div className="max-w-7xl mx-auto px-6 mb-16 grid md:grid-cols-2 gap-8 items-end">
         <div>
-          <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Our Work</span>
+          <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">Featured Work</span>
           <h2 className="text-5xl md:text-7xl font-light mb-4">Featured Work</h2>
           <p className="text-sm font-light text-brand-muted max-w-xl">
-            A curated selection of branding, UI/UX, digital product, and creative communication projects that reflect our passion for purposeful design and meaningful user experiences.
+            A curated selection of digital products, enterprise applications, branding systems, healthcare experiences, and creative solutions built to solve business challenges and deliver meaningful customer experiences.
           </p>
         </div>
         <div className="flex md:justify-end">
@@ -964,27 +1360,53 @@ const Portfolio = ({ onViewAllClick }: { onViewAllClick: () => void }) => {
       <div className="border-t border-brand-ink/10">
         <PortfolioItem 
           title="Healthcare & Wellness Digital Experience"
-          problem="Complex healthcare and wellness services needed a more engaging digital presence and a seamless customer journey."
-          solution="Designed user-centric digital experiences, campaign landing pages, emailers, social media creatives, and visual communication systems."
-          result="Stronger audience engagement, improved brand consistency, and a more connected digital ecosystem."
+          problem="Healthcare and wellness services required a seamless digital experience that simplified customer journeys while strengthening engagement."
+          solution="Designed user-centric websites, campaign landing pages, email marketing systems, social media experiences, and digital communication assets that connected users across multiple touchpoints."
+          result="Improved customer engagement, stronger brand consistency, and a more unified digital ecosystem that supported long-term business growth."
           img="https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/wellnessdigital.png"
           delay={0.1}
+          caseStudyId="healthcare-wellness"
+          onCaseStudyClick={onCaseStudyClick}
         />
         <PortfolioItem 
           title="Enterprise Mobile Application Design"
-          problem="Users faced challenges navigating complex workflows and completing tasks efficiently."
-          solution="Created intuitive user journeys, wireframes, design systems, and modern mobile interfaces focused on usability."
-          result="Improved user experience, streamlined interactions, and enhanced product adoption."
+          problem="Complex business workflows created friction, reducing efficiency and slowing task completion."
+          solution="Designed intuitive user journeys, scalable design systems, wireframes, interactive prototypes, and modern mobile interfaces focused on usability and productivity."
+          result="Simplified workflows, improved user adoption, and a significantly better product experience."
           img="https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/Mobileapp.png"
           delay={0.2}
+          caseStudyId="enterprise-mobile"
+          onCaseStudyClick={onCaseStudyClick}
         />
         <PortfolioItem 
-          title="Social Media Experience & Brand Communication"
-          problem="Brands often face challenges in maintaining a consistent identity and meaningful engagement in an increasingly crowded digital landscape."
-          solution="Created cohesive social media ecosystems through content strategy, campaign design, visual storytelling, motion creatives, and audience-focused communication."
-          result="Strengthened brand perception, increased engagement, and established a recognizable and consistent presence across digital platforms."
+          title="SaaS Dashboard & Product Experience"
+          problem="Growing businesses required modern digital platforms capable of managing complex data while remaining intuitive for users."
+          solution="Designed dashboard experiences, admin interfaces, analytics views, component libraries, and scalable design systems optimized for enterprise products."
+          result="Cleaner workflows, improved usability, and digital products built for long-term scalability."
+          img="https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/ChatGPT-Image-Jun-11%2C-2026%2C-04_01_27-PM.png"
+          delay={0.25}
+          caseStudyId="saas-dashboard"
+          onCaseStudyClick={onCaseStudyClick}
+        />
+        <PortfolioItem 
+          title="Social Media Experience & Growth Design"
+          problem="Brands struggled to maintain consistency and meaningful engagement across rapidly evolving digital channels."
+          solution="Created cohesive content systems, campaign creatives, motion graphics, launch assets, and audience-focused communication strategies."
+          result="Improved brand recognition, stronger engagement, and more consistent digital communication."
           img="https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/ChatGPT-Image-Jun-11%2C-2026%2C-04_08_37-PM.png"
           delay={0.3}
+          caseStudyId="saas-dashboard"
+          onCaseStudyClick={onCaseStudyClick}
+        />
+        <PortfolioItem 
+          title="Brand Identity & Packaging Experience"
+          problem="Businesses needed stronger visual identities and premium product presentation to compete in crowded markets."
+          solution="Designed complete branding systems, packaging, retail communication, product presentation, and marketing collateral."
+          result="Elevated brand perception, improved product visibility, and stronger customer recall."
+          img="https://cskb8bjylqfsorzu.public.blob.vercel-storage.com/aakarimages/ChatGPT-Image-Jun-11%2C-2026%2C-04_54_00-PM.png"
+          delay={0.35}
+          caseStudyId="healthcare-wellness"
+          onCaseStudyClick={onCaseStudyClick}
         />
       </div>
 
@@ -1013,32 +1435,33 @@ const Process = () => {
   const colY = useTransform(scrollYProgress, [0, 1], ["3%", "-3%"]);
 
   const steps = [
-    { num: "01", title: "Discovery", desc: "Understanding your brand, audience, and deep business goals." },
-    { num: "02", title: "Strategy", desc: "Defining the design direction, structure, and market positioning." },
-    { num: "03", title: "Design", desc: "Crafting elegant, high-performing visuals that command attention." },
-    { num: "04", title: "Delivery", desc: "Final assets ready for seamless implementation and rollout." }
+    { num: "01", title: "Discovery & Strategy", desc: "We understand your business goals, target audience, and product requirements to define a clear design direction." },
+    { num: "02", title: "UX Architecture & Wireframes", desc: "We create intuitive user journeys, interactive wireframes, and information architectures to map the experience." },
+    { num: "03", title: "UI & Experience Design", desc: "We design polished, modern, and accessible user interfaces paired with premium visual aesthetics." },
+    { num: "04", title: "Brand Integration & Systems", desc: "We build cohesive visual systems and scalable design systems for fast, consistent product development." },
+    { num: "05", title: "Production & Support", desc: "We provide developer-ready assets, specifications, and support through launch to ensure pixel-perfect execution." }
   ];
 
   return (
     <section ref={containerRef} id="process" className="py-24 bg-[#101010] text-brand-paper overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="grid lg:grid-cols-3 gap-16">
-          <motion.div style={{ y: colY }} className="col-span-1">
+        <div className="grid lg:grid-cols-12 gap-16 items-start">
+          <motion.div style={{ y: colY }} className="lg:col-span-4">
             <span className="text-xs uppercase tracking-[0.4em] font-medium text-brand-muted mb-4 block">The Process</span>
-            <h2 className="text-5xl md:text-7xl font-light mb-8 leading-tight">How We Work</h2>
+            <h2 className="text-5xl md:text-7xl font-light mb-8 leading-tight text-brand-paper">How We Work</h2>
             <p className="text-brand-paper/40 font-light leading-relaxed mb-8">
-              Every project follows a refined methodology to ensure consistency, quality, and results that exceed expectations.
+              Every project follows a refined product design methodology to ensure consistency, quality, and results that support your business goals.
             </p>
             <div className="w-16 h-16 border border-brand-paper/10 rounded-full flex items-center justify-center text-brand-accent">
               <Sparkles size={24} />
             </div>
           </motion.div>
-          <motion.div style={{ y: colY }} className="col-span-2 grid md:grid-cols-2 gap-8">
+          <motion.div style={{ y: colY }} className="lg:col-span-8 grid sm:grid-cols-2 gap-8">
             {steps.map((step) => (
               <div key={step.num} className="p-10 border border-brand-paper/5 hover:border-brand-accent/30 transition-colors group bg-neutral-900/10">
                 <div className="text-5xl font-serif text-brand-accent/20 group-hover:text-brand-accent transition-colors mb-6">{step.num}</div>
-                <h3 className="text-xl mb-4 group-hover:translate-x-2 transition-transform duration-300">{step.title}</h3>
-                <p className="text-sm font-light text-brand-paper/40 group-hover:text-brand-paper/60 transition-colors">{step.desc}</p>
+                <h3 className="text-xl mb-4 group-hover:translate-x-2 transition-transform duration-300 font-serif font-medium text-brand-paper">{step.title}</h3>
+                <p className="text-sm font-light text-brand-paper/40 group-hover:text-brand-paper/60 transition-colors leading-relaxed">{step.desc}</p>
               </div>
             ))}
           </motion.div>
@@ -1137,7 +1560,7 @@ const Footer = () => {
         
         <div className="flex items-center gap-8">
           <a 
-            href="https://www.linkedin.com/in/aakar-studio-digital/" 
+            href="https://www.linkedin.com/company/aakar-studio-product-brand-experience-design/" 
             target="_blank" 
             rel="noopener noreferrer" 
             className="flex items-center gap-2 text-[10px] uppercase tracking-[0.3em] font-medium text-brand-muted hover:text-brand-accent transition-colors"
@@ -1158,13 +1581,21 @@ const Footer = () => {
 // --- Main App ---
 
 export default function App() {
-  const [view, setView] = useState<'home' | 'projects'>('home');
+  const [view, setView] = useState<'home' | 'projects' | 'case-study'>('home');
+  const [selectedCaseStudyId, setSelectedCaseStudyId] = useState<string>('healthcare-wellness');
   const [isBookingOpen, setIsBookingOpen] = useState(false);
 
   // Automatically scroll to the top of the page on view change
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'instant' as any });
-  }, [view]);
+  }, [view, selectedCaseStudyId]);
+
+  const handleOpenCaseStudy = (projectId?: string) => {
+    if (projectId) {
+      setSelectedCaseStudyId(projectId);
+    }
+    setView('case-study');
+  };
 
   const handleContactNavigate = () => {
     if (view !== 'home') {
@@ -1187,7 +1618,10 @@ export default function App() {
     <div className="min-h-screen selection:bg-brand-accent selection:text-white overflow-x-hidden bg-brand-paper">
       {view === 'home' ? (
         <>
-          <Navbar onBookClick={() => setIsBookingOpen(true)} />
+          <Navbar 
+            onBookClick={() => setIsBookingOpen(true)} 
+            onCaseStudyClick={() => handleOpenCaseStudy('healthcare-wellness')}
+          />
           <Hero onBookClick={() => setIsBookingOpen(true)} />
           <motion.div
             initial={{ opacity: 0 }}
@@ -1203,16 +1637,30 @@ export default function App() {
           <Services />
           <Capabilities />
           <Industries />
-          <Portfolio onViewAllClick={() => setView('projects')} />
+          <Portfolio 
+            onViewAllClick={() => setView('projects')} 
+            onCaseStudyClick={(id) => handleOpenCaseStudy(id || 'healthcare-wellness')}
+          />
           <Process />
           <Contact onBookClick={() => setIsBookingOpen(true)} />
           <Footer />
         </>
-      ) : (
+      ) : view === 'projects' ? (
         <div className="animate-fadeIn">
           <ProjectsPage 
             onBackToHome={() => setView('home')} 
             onContactClick={handleContactNavigate} 
+            onBookClick={() => setIsBookingOpen(true)}
+            onCaseStudyClick={(id) => handleOpenCaseStudy(id || 'healthcare-wellness')}
+          />
+          <Footer />
+        </div>
+      ) : (
+        <div className="animate-fadeIn">
+          <CaseStudyPage 
+            initialProjectId={selectedCaseStudyId}
+            onBackToHome={() => setView('home')}
+            onContactClick={handleContactNavigate}
             onBookClick={() => setIsBookingOpen(true)}
           />
           <Footer />
