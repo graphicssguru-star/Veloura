@@ -1615,7 +1615,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen selection:bg-brand-accent selection:text-white overflow-x-hidden bg-brand-paper">
+    <div style={{ display: 'none' }} className="min-h-screen selection:bg-brand-accent selection:text-white overflow-x-hidden bg-brand-paper">
       {view === 'home' ? (
         <>
           <Navbar 
